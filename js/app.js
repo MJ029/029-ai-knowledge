@@ -10,7 +10,6 @@
     breadcrumb: document.getElementById("breadcrumb"),
     themeToggle: document.getElementById("theme-toggle"),
     navToggle: document.getElementById("nav-toggle"),
-    paletteTrigger: document.getElementById("palette-trigger"),
   };
 
   function topicById(id) {
@@ -258,7 +257,7 @@
       el.app.classList.toggle("sidebar-collapsed");
     });
 
-    el.paletteTrigger.addEventListener("click", () => CommandPalette.open());
+    document.getElementById("search-bar-icon").innerHTML = Icons.svg("search", 15);
 
     if (window.innerWidth <= 760) el.app.classList.add("sidebar-collapsed");
 

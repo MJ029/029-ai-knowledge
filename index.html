@@ -15,9 +15,16 @@
         <button class="icon-btn" id="nav-toggle" title="Toggle menu">☰</button>
         <span class="breadcrumb" id="breadcrumb">Home</span>
         <span class="spacer"></span>
-        <button class="palette-trigger" id="palette-trigger" title="Search">
-          Search <kbd>⌘K</kbd>
-        </button>
+        <div class="topbar-center">
+          <div class="search-bar" id="search-bar">
+            <div class="search-bar-field">
+              <span class="search-bar-icon" id="search-bar-icon"></span>
+              <input type="text" id="global-search" class="search-bar-input" placeholder="Search topics & posts…" autocomplete="off" />
+              <kbd>⌘K</kbd>
+            </div>
+            <div class="search-dropdown" id="search-dropdown" hidden></div>
+          </div>
+        </div>
         <button class="icon-btn" id="theme-toggle" title="Toggle theme">☾</button>
       </div>
       <div id="main-content"></div>

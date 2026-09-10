@@ -5,34 +5,15 @@ const CommandPalette = (() => {
   let els = null;
 
   function build() {
-    const overlay = document.createElement("div");
-    overlay.className = "palette-overlay";
-    overlay.hidden = true;
-    overlay.innerHTML = `
-      <div class="palette-modal" role="dialog" aria-label="Search">
-        <div class="palette-input-row">
-          <span class="palette-search-icon">${Icons.svg("search", 16)}</span>
-          <input type="text" class="palette-input" placeholder="Jump to a topic or post…" autocomplete="off" />
-          <kbd class="palette-esc">esc</kbd>
-        </div>
-        <div class="palette-results"></div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
+    els = {
+      bar: document.getElementById("search-bar"),
+      input: document.getElementById("global-search"),
+      dropdown: document.getElementById("search-dropdown"),
+    };
 
-    const modal = overlay.querySelector(".palette-modal");
-    const input = overlay.querySelector(".palette-input");
-    const results = overlay.querySelector(".palette-results");
-
-    overlay.addEventListener("mousedown", (e) => {
-      if (e.target === overlay) close();
-    });
-    modal.addEventListener("mousedown", (e) => e.stopPropagation());
-
-    input.addEventListener("input", () => {
-      filter(input.value);
-    });
-    input.addEventListener("keydown", (e) => {
+    els.input.addEventListener("input", () => filter(els.input.value));
+    els.input.addEventListener("focus", () => filter(els.input.value));
+    els.input.addEventListener("keydown", (e) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
         move(1);
@@ -44,10 +25,15 @@ const CommandPalette = (() => {
         commit(selected);
       } else if (e.key === "Escape") {
         close();
+        els.input.blur();
       }
     });
 
-    els = { overlay, modal, input, results };
+    els.dropdown.addEventListener("mousedown", (e) => e.preventDefault());
+
+    document.addEventListener("mousedown", (e) => {
+      if (!els.bar.contains(e.target)) close();
+    });
   }
 
   function score(item, q) {
@@ -71,14 +57,15 @@ const CommandPalette = (() => {
           .map((x) => x.item);
     selected = 0;
     renderResults();
+    open();
   }
 
   function renderResults() {
     if (!filtered.length) {
-      els.results.innerHTML = `<div class="palette-empty">No matches</div>`;
+      els.dropdown.innerHTML = `<div class="palette-empty">No matches</div>`;
       return;
     }
-    els.results.innerHTML = filtered
+    els.dropdown.innerHTML = filtered
       .map(
         (item, i) => `
         <div class="palette-row${i === selected ? " selected" : ""}" data-index="${i}">
@@ -88,7 +75,7 @@ const CommandPalette = (() => {
         </div>`
       )
       .join("");
-    Array.from(els.results.querySelectorAll(".palette-row")).forEach((row) => {
+    Array.from(els.dropdown.querySelectorAll(".palette-row")).forEach((row) => {
       row.addEventListener("mouseenter", () => {
         selected = Number(row.dataset.index);
         renderResults();
@@ -107,18 +94,17 @@ const CommandPalette = (() => {
     const item = filtered[index];
     if (!item) return;
     location.hash = item.href;
+    els.input.value = "";
     close();
+    els.input.blur();
   }
 
   function open() {
-    els.overlay.hidden = false;
-    els.input.value = "";
-    filter("");
-    setTimeout(() => els.input.focus(), 0);
+    els.dropdown.hidden = false;
   }
 
   function close() {
-    els.overlay.hidden = true;
+    els.dropdown.hidden = true;
   }
 
   function init(searchItems) {
@@ -128,9 +114,8 @@ const CommandPalette = (() => {
       const metaK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
       if (metaK) {
         e.preventDefault();
-        els.overlay.hidden ? open() : close();
-      } else if (e.key === "Escape" && !els.overlay.hidden) {
-        close();
+        els.input.focus();
+        els.input.select();
       }
     });
   }
