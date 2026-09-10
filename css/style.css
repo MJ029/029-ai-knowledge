@@ -523,4 +523,10 @@ button:hover { border-color: var(--accent); }
     transition: transform 0.2s ease;
   }
   .app:not(.sidebar-collapsed) .sidebar { transform: translateX(0); }
+
+  .topbar { padding: 10px 12px; gap: 8px; }
+  .breadcrumb { display: none; }
+  .topbar-center { position: static; top: auto; left: auto; transform: none; flex: 1; min-width: 0; }
+  .search-bar { width: 100%; }
+  .search-bar-field kbd { display: none; }
 }
