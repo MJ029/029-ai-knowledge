@@ -124,8 +124,8 @@
     el.main.innerHTML = `
       <div class="home-search-page">
         <div class="home-search-hero">
-          <h1 class="home-logo">${state.manifest.site.title}</h1>
-          <p class="home-tagline">${state.manifest.site.tagline}</p>
+          <h1 class="home-logo">${state.manifest.site.homeHeading || state.manifest.site.title}</h1>
+          <p class="home-tagline">${state.manifest.site.homeTagline || state.manifest.site.tagline}</p>
           <div class="search-bar search-bar-lg" id="home-search-bar">
             <div class="search-bar-field">
               <span class="search-bar-icon" id="home-search-icon"></span>

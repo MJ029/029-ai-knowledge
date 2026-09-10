@@ -2,6 +2,8 @@
   "site": {
     "title": "AI Knowledge",
     "tagline": "A graph of AI, one node at a time",
+    "homeHeading": "Welcome — glad you're here",
+    "homeTagline": "Notes on AI, written as I learn. Search below to jump in.",
     "author": "Manikandan Jeyabal"
   },
   "categories": [
