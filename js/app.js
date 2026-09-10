@@ -92,10 +92,6 @@
         </div>
         <span class="graph-hint">drag to pan · scroll to zoom · click a node</span>
       </div>
-      <div class="workflow">
-        <h2>How it fits together</h2>
-        <div id="workflow-strip"></div>
-      </div>
     `;
 
     const mountGraph = () => {
@@ -109,18 +105,6 @@
     };
     mountGraph();
     document.getElementById("graph-reset").addEventListener("click", mountGraph);
-
-    Workflow.render(
-      document.getElementById("workflow-strip"),
-      [
-        { icon: "data", label: "Data & ML", href: "#/topic/ml" },
-        { icon: "train", label: "Deep Learning", href: "#/topic/deep-learning" },
-        { icon: "generate", label: "Generative AI", href: "#/topic/generative-ai" },
-        { icon: "deploy", label: "MLOps / Deploy", href: "#/topic/mlops" },
-        { icon: "agent", label: "Agents", href: "#/topic/agents" },
-      ],
-      (href) => (location.hash = href)
-    );
   }
 
   function renderTopic(id) {
