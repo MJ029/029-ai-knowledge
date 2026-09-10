@@ -184,6 +184,32 @@ button:hover { border-color: var(--accent); }
 .nav-item.active .nav-item-icon { color: white; opacity: 1; }
 .nav-item-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+.nav-subgroup { margin: 2px 0; }
+.nav-subgroup-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 18px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-radius: 6px;
+  user-select: none;
+}
+.nav-subgroup-header:hover { background: var(--bg); color: var(--text); }
+.nav-subgroup-header .chevron { transition: transform 0.15s ease; font-size: 9px; }
+.nav-subgroup.collapsed .chevron { transform: rotate(-90deg); }
+.nav-subgroup.collapsed .nav-items { display: none; }
+.nav-subgroup .nav-item { padding-left: 34px; }
+
+.sidebar-pinned {
+  padding: 6px 8px;
+  border-top: 1px solid var(--border);
+}
+
 .sidebar-footer {
   padding: 10px 16px;
   border-top: 1px solid var(--border);
@@ -223,20 +249,46 @@ button:hover { border-color: var(--accent); }
 .breadcrumb .crumb-home:hover { color: var(--accent); text-decoration: none; }
 .spacer { flex: 1; }
 
-/* ---------- Home / Graph hero ---------- */
+/* ---------- Home search page ---------- */
 
-.hero {
-  padding: 28px 28px 0;
+.home-search-page {
+  min-height: calc(100vh - 53px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
-.hero h1 {
-  font-size: 26px;
-  margin: 0 0 4px;
+.home-search-hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateY(-6vh);
 }
-.hero p {
+.home-logo {
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+.home-tagline {
   color: var(--text-dim);
-  margin: 0 0 18px;
   font-size: 14.5px;
+  margin: 0 0 28px;
 }
+.search-bar.search-bar-lg {
+  width: min(560px, 90vw);
+}
+.search-bar-lg .search-bar-field {
+  padding: 13px 18px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+.search-bar-lg .search-bar-input {
+  font-size: 15px;
+}
+
+/* ---------- Graph preview ---------- */
 
 .graph-wrap {
   margin: 0 20px 24px;

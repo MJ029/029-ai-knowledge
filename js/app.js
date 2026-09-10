@@ -10,6 +10,7 @@
     breadcrumb: document.getElementById("breadcrumb"),
     themeToggle: document.getElementById("theme-toggle"),
     navToggle: document.getElementById("nav-toggle"),
+    topbarCenter: document.querySelector(".topbar-center"),
   };
 
   function topicById(id) {
@@ -27,9 +28,10 @@
   }
 
   function buildGraphData(manifest) {
+    const visibleBlog = manifest.blog.filter((b) => !b.hidden);
     const nodes = manifest.topics
       .map((t) => ({ id: t.id, title: t.title, type: "topic", category: t.category }))
-      .concat(manifest.blog.map((b) => ({ id: b.id, title: b.title, type: "blog" })));
+      .concat(visibleBlog.map((b) => ({ id: b.id, title: b.title, type: "blog" })));
 
     const seen = new Set();
     const edges = [];
@@ -41,28 +43,21 @@
       edges.push({ source: a, target: b });
     }
     manifest.topics.forEach((t) => (t.related || []).forEach((r) => addEdge(t.id, r)));
-    manifest.blog.forEach((b) => (b.related || []).forEach((r) => addEdge(b.id, r)));
+    visibleBlog.forEach((b) => (b.related || []).forEach((r) => addEdge(b.id, r)));
     return { nodes, edges };
   }
 
   function buildSearchItems(manifest) {
-    const topicItems = manifest.topics.map((t) => ({
-      id: t.id,
-      title: t.title,
-      type: "topic",
-      category: t.category,
-      icon: t.icon,
-      href: `#/topic/${t.id}`,
-    }));
-    const blogItems = manifest.blog.map((b) => ({
-      id: b.id,
-      title: b.title,
-      type: "blog",
-      category: "Blog",
-      icon: b.icon || "post",
-      href: `#/blog/${b.id}`,
-    }));
-    return topicItems.concat(blogItems);
+    return manifest.blog
+      .filter((b) => !b.hidden)
+      .map((b) => ({
+        id: b.id,
+        title: b.title,
+        type: "blog",
+        category: "Blog",
+        icon: b.icon || "post",
+        href: `#/blog/${b.id}`,
+      }));
   }
 
   function parseHash() {
@@ -72,6 +67,7 @@
     if (parts[0] === "topic" && parts[1]) return { name: "topic", id: parts[1] };
     if (parts[0] === "blog" && parts[1]) return { name: "blog-post", id: parts[1] };
     if (parts[0] === "blog") return { name: "blog-list" };
+    if (parts[0] === "graph") return { name: "graph" };
     return { name: "home" };
   }
 
@@ -95,16 +91,34 @@
   }
 
   function relatedPostsFor(topicId) {
-    return state.manifest.blog.filter((b) => (b.related || []).includes(topicId));
+    return state.manifest.blog.filter((b) => !b.hidden && (b.related || []).includes(topicId));
   }
 
   function renderHome() {
     setBreadcrumb();
     el.main.innerHTML = `
-      <div class="hero">
-        <h1>${state.manifest.site.title}</h1>
-        <p>${state.manifest.site.tagline} — click any node to jump straight into a topic.</p>
+      <div class="home-search-page">
+        <div class="home-search-hero">
+          <h1 class="home-logo">${state.manifest.site.title}</h1>
+          <p class="home-tagline">${state.manifest.site.tagline}</p>
+          <div class="search-bar search-bar-lg" id="home-search-bar">
+            <div class="search-bar-field">
+              <span class="search-bar-icon" id="home-search-icon"></span>
+              <input type="text" id="home-search-input" class="search-bar-input" placeholder="Search articles…" autocomplete="off" />
+            </div>
+            <div class="search-dropdown" id="home-search-dropdown" hidden></div>
+          </div>
+        </div>
       </div>
+    `;
+    document.getElementById("home-search-icon").innerHTML = Icons.svg("search", 18);
+    CommandPalette.mount({ barId: "home-search-bar", inputId: "home-search-input", dropdownId: "home-search-dropdown" });
+  }
+
+  function renderGraphPreview() {
+    setBreadcrumb("Graph (Preview)");
+    el.main.innerHTML = `
+      <div class="page-eyebrow" style="padding:20px 20px 0">Preview</div>
       <div class="graph-wrap" id="graph-wrap">
         <div class="graph-canvas" id="graph-canvas"></div>
         <div class="graph-controls">
@@ -161,7 +175,7 @@
 
   function renderBlogList() {
     setBreadcrumb("Blog");
-    const posts = [...state.manifest.blog].sort((a, b) => (a.date < b.date ? 1 : -1));
+    const posts = state.manifest.blog.filter((b) => !b.hidden).sort((a, b) => (a.date < b.date ? 1 : -1));
     const cards = posts
       .map(
         (p) => `
@@ -216,8 +230,6 @@
   function refreshSidebar(activeId) {
     Sidebar.render(el.sidebar, {
       site: state.manifest.site,
-      categories: state.manifest.categories,
-      topics: state.manifest.topics,
       blog: state.manifest.blog,
       activeId,
       onNavigate: () => {},
@@ -227,6 +239,7 @@
   function route() {
     const r = parseHash();
     el.main.scrollTop = 0;
+    el.topbarCenter.hidden = r.name === "home";
     if (r.name === "home") {
       refreshSidebar(null);
       renderHome();
@@ -234,11 +247,14 @@
       refreshSidebar(r.id);
       renderTopic(r.id);
     } else if (r.name === "blog-list") {
-      refreshSidebar("__all-blog");
+      refreshSidebar(null);
       renderBlogList();
     } else if (r.name === "blog-post") {
       refreshSidebar(r.id);
       renderBlogPost(r.id);
+    } else if (r.name === "graph") {
+      refreshSidebar("__graph");
+      renderGraphPreview();
     } else {
       refreshSidebar(null);
       renderNotFound();
@@ -258,6 +274,7 @@
     });
 
     document.getElementById("search-bar-icon").innerHTML = Icons.svg("search", 15);
+    CommandPalette.mount({ barId: "search-bar", inputId: "global-search", dropdownId: "search-dropdown" });
 
     if (window.innerWidth <= 760) el.app.classList.add("sidebar-collapsed");
 

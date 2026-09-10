@@ -97,12 +97,25 @@
     {
       "id": "getting-started-with-llms",
       "title": "Getting Started with LLMs",
+      "category": "General",
+      "hidden": true,
       "date": "2026-09-10",
       "tags": ["llms", "generative-ai"],
       "icon": "post",
       "summary": "Where to start if you're new to large language models.",
       "file": "content/blog/getting-started-with-llms.md",
       "related": ["llms", "generative-ai"]
+    },
+    {
+      "id": "what-is-rag",
+      "title": "What is RAG?",
+      "category": "RAG",
+      "date": "2026-09-10",
+      "tags": ["rag", "llms"],
+      "icon": "post",
+      "summary": "Retrieval-augmented generation, in plain terms.",
+      "file": "content/blog/what-is-rag.md",
+      "related": ["llms"]
     }
   ]
 }
