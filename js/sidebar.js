@@ -9,7 +9,31 @@ const Sidebar = (() => {
     return a;
   }
 
-  function render(container, { site, blog, activeId, onNavigate }) {
+  function buildFlatGroup(key, label, items, activeId) {
+    const wrap = document.createElement("div");
+    wrap.className = "nav-group";
+    wrap.dataset.key = key;
+
+    const header = document.createElement("div");
+    header.className = "nav-group-header";
+    header.innerHTML = `<span class="chevron">▾</span><span>${label}</span>`;
+    header.addEventListener("click", () => wrap.classList.toggle("collapsed"));
+    wrap.appendChild(header);
+
+    const itemsWrap = document.createElement("div");
+    itemsWrap.className = "nav-items";
+    let containsActive = false;
+    items.forEach((item) => {
+      if (item.id === activeId) containsActive = true;
+      itemsWrap.appendChild(itemRow(item, activeId));
+    });
+    wrap.appendChild(itemsWrap);
+    if (activeId && !containsActive) wrap.classList.add("collapsed");
+
+    return wrap;
+  }
+
+  function render(container, { site, blog, news, activeId, onNavigate }) {
     container.innerHTML = "";
 
     const header = document.createElement("div");
@@ -30,11 +54,12 @@ const Sidebar = (() => {
     navScroll.className = "nav-scroll";
     container.appendChild(navScroll);
 
-    const RECENT_BLOG_COUNT = 8;
+    const RECENT_COUNT = 8;
+
     const recentBlog = [...blog]
       .filter((b) => !b.hidden)
       .sort((a, b) => (a.date < b.date ? 1 : -1))
-      .slice(0, RECENT_BLOG_COUNT);
+      .slice(0, RECENT_COUNT);
 
     const byCategory = new Map();
     recentBlog.forEach((b) => {
@@ -89,22 +114,33 @@ const Sidebar = (() => {
     if (activeId && !blogContainsActive) blogWrap.classList.add("collapsed");
     navScroll.appendChild(blogWrap);
 
+    const recentNews = [...news]
+      .filter((n) => !n.hidden)
+      .sort((a, b) => (a.date < b.date ? 1 : -1))
+      .slice(0, RECENT_COUNT)
+      .map((n) => ({ id: n.id, title: n.title, icon: n.icon || "post", href: `#/news/${n.id}` }));
+
+    const newsWrap = buildFlatGroup("__news", "Latest News (Coming Soon)", recentNews, activeId);
+    navScroll.appendChild(newsWrap);
+
     searchInput.addEventListener("input", () => {
       const q = searchInput.value.trim().toLowerCase();
-      const items = Array.from(blogItemsWrap.querySelectorAll(".nav-item"));
-      let anyVisible = false;
-      items.forEach((el) => {
-        const match = !q || el.textContent.toLowerCase().includes(q);
-        el.classList.toggle("hidden", !match);
-        if (match) anyVisible = true;
+      Array.from(navScroll.querySelectorAll(".nav-group")).forEach((wrap) => {
+        const items = Array.from(wrap.querySelectorAll(".nav-item"));
+        let anyVisible = false;
+        items.forEach((el) => {
+          const match = !q || el.textContent.toLowerCase().includes(q);
+          el.classList.toggle("hidden", !match);
+          if (match) anyVisible = true;
+        });
+        Array.from(wrap.querySelectorAll(".nav-subgroup")).forEach((sub) => {
+          const visibleCount = sub.querySelectorAll(".nav-item:not(.hidden)").length;
+          sub.style.display = visibleCount ? "" : "none";
+          if (q && visibleCount) sub.classList.remove("collapsed");
+        });
+        wrap.style.display = anyVisible ? "" : "none";
+        if (q && anyVisible) wrap.classList.remove("collapsed");
       });
-      Array.from(blogItemsWrap.querySelectorAll(".nav-subgroup")).forEach((sub) => {
-        const visibleCount = sub.querySelectorAll(".nav-item:not(.hidden)").length;
-        sub.style.display = visibleCount ? "" : "none";
-        if (q && visibleCount) sub.classList.remove("collapsed");
-      });
-      blogWrap.style.display = anyVisible ? "" : "none";
-      if (q && anyVisible) blogWrap.classList.remove("collapsed");
     });
 
     const pinned = document.createElement("div");

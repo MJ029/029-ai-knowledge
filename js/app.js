@@ -19,19 +19,32 @@
   function blogById(id) {
     return state.manifest.blog.find((b) => b.id === id);
   }
+  function newsById(id) {
+    return state.manifest.news.find((n) => n.id === id);
+  }
+  function hrefFor(id) {
+    if (topicById(id)) return `#/topic/${id}`;
+    if (blogById(id)) return `#/blog/${id}`;
+    if (newsById(id)) return `#/news/${id}`;
+    return "#/";
+  }
   function nodeTitle(id) {
     const t = topicById(id);
     if (t) return t.title;
     const b = blogById(id);
     if (b) return b.title;
+    const n = newsById(id);
+    if (n) return n.title;
     return id;
   }
 
   function buildGraphData(manifest) {
     const visibleBlog = manifest.blog.filter((b) => !b.hidden);
+    const visibleNews = manifest.news.filter((n) => !n.hidden);
     const nodes = manifest.topics
       .map((t) => ({ id: t.id, title: t.title, type: "topic", category: t.category }))
-      .concat(visibleBlog.map((b) => ({ id: b.id, title: b.title, type: "blog" })));
+      .concat(visibleBlog.map((b) => ({ id: b.id, title: b.title, type: "blog" })))
+      .concat(visibleNews.map((n) => ({ id: n.id, title: n.title, type: "news" })));
 
     const seen = new Set();
     const edges = [];
@@ -44,11 +57,12 @@
     }
     manifest.topics.forEach((t) => (t.related || []).forEach((r) => addEdge(t.id, r)));
     visibleBlog.forEach((b) => (b.related || []).forEach((r) => addEdge(b.id, r)));
+    visibleNews.forEach((n) => (n.related || []).forEach((r) => addEdge(n.id, r)));
     return { nodes, edges };
   }
 
   function buildSearchItems(manifest) {
-    return manifest.blog
+    const blogItems = manifest.blog
       .filter((b) => !b.hidden)
       .map((b) => ({
         id: b.id,
@@ -58,6 +72,17 @@
         icon: b.icon || "post",
         href: `#/blog/${b.id}`,
       }));
+    const newsItems = manifest.news
+      .filter((n) => !n.hidden)
+      .map((n) => ({
+        id: n.id,
+        title: n.title,
+        type: "news",
+        category: "Latest News",
+        icon: n.icon || "post",
+        href: `#/news/${n.id}`,
+      }));
+    return blogItems.concat(newsItems);
   }
 
   function parseHash() {
@@ -67,6 +92,7 @@
     if (parts[0] === "topic" && parts[1]) return { name: "topic", id: parts[1] };
     if (parts[0] === "blog" && parts[1]) return { name: "blog-post", id: parts[1] };
     if (parts[0] === "blog") return { name: "blog-list" };
+    if (parts[0] === "news" && parts[1]) return { name: "news-post", id: parts[1] };
     if (parts[0] === "graph") return { name: "graph" };
     return { name: "home" };
   }
@@ -82,9 +108,8 @@
       .filter((id) => id !== currentId)
       .map((id) => {
         const isTopic = !!topicById(id);
-        const href = isTopic ? `#/topic/${id}` : `#/blog/${id}`;
         const cls = isTopic ? "chip" : "chip blog";
-        return `<a class="${cls}" href="${href}">${nodeTitle(id)}</a>`;
+        return `<a class="${cls}" href="${hrefFor(id)}">${nodeTitle(id)}</a>`;
       })
       .join("");
     return `<div class="related-chips">${chips}</div>`;
@@ -133,7 +158,7 @@
         nodes: state.graphData.nodes,
         edges: state.graphData.edges,
         onSelect: (n) => {
-          location.hash = n.type === "blog" ? `#/blog/${n.id}` : `#/topic/${n.id}`;
+          location.hash = hrefFor(n.id);
         },
       });
     };
@@ -222,6 +247,33 @@
       });
   }
 
+  function renderNewsPost(id) {
+    const item = newsById(id);
+    if (!item) return renderNotFound();
+    setBreadcrumb(`Latest News <span style="opacity:.5">/</span> <b>${item.title}</b>`);
+    el.main.innerHTML = `<div class="page"><div class="empty-state">Loading…</div></div>`;
+
+    fetch(item.file)
+      .then((r) => {
+        if (!r.ok) throw new Error("not found");
+        return r.text();
+      })
+      .then((md) => {
+        el.main.innerHTML = `
+          <div class="page">
+            <div class="page-eyebrow">Latest News</div>
+            <h1>${item.title}</h1>
+            <div class="page-meta">${item.date}</div>
+            <div class="md-body">${Markdown.toHtml(md)}</div>
+            ${relatedChipsHtml(item.related, id)}
+          </div>
+        `;
+      })
+      .catch(() => {
+        el.main.innerHTML = `<div class="page"><div class="empty-state">Couldn't load this update.</div></div>`;
+      });
+  }
+
   function renderNotFound() {
     setBreadcrumb("Not found");
     el.main.innerHTML = `<div class="page"><div class="empty-state">Nothing here. <a href="#/">Back home</a></div></div>`;
@@ -231,6 +283,7 @@
     Sidebar.render(el.sidebar, {
       site: state.manifest.site,
       blog: state.manifest.blog,
+      news: state.manifest.news,
       activeId,
       onNavigate: () => {},
     });
@@ -252,6 +305,9 @@
     } else if (r.name === "blog-post") {
       refreshSidebar(r.id);
       renderBlogPost(r.id);
+    } else if (r.name === "news-post") {
+      refreshSidebar(r.id);
+      renderNewsPost(r.id);
     } else if (r.name === "graph") {
       refreshSidebar("__graph");
       renderGraphPreview();

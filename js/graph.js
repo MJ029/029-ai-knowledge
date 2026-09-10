@@ -115,7 +115,7 @@ const Graph = (() => {
 
       const r = 16 + Math.min(deg.get(n.id) || 0, 6) * 2.6;
       const circle = document.createElementNS(SVG_NS, "circle");
-      circle.setAttribute("class", "node-circle" + (n.type === "blog" ? " blog" : ""));
+      circle.setAttribute("class", "node-circle" + (n.type === "blog" || n.type === "news" ? " blog" : ""));
       circle.setAttribute("r", r);
       if (n.id === activeId) circle.setAttribute("stroke-width", "3.5");
       g.appendChild(circle);

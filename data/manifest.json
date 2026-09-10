@@ -117,5 +117,17 @@
       "file": "content/blog/what-is-rag.md",
       "related": ["llms"]
     }
+  ],
+  "news": [
+    {
+      "id": "site-launch",
+      "title": "AI Knowledge is live",
+      "hidden": true,
+      "date": "2026-09-10",
+      "icon": "post",
+      "summary": "This site just went up — a blog on AI topics, with a graph preview of how it all connects.",
+      "file": "content/news/site-launch.md",
+      "related": []
+    }
   ]
 }
