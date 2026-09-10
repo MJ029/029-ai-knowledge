@@ -20,28 +20,33 @@ const Sidebar = (() => {
     navScroll.className = "nav-scroll";
     container.appendChild(navScroll);
 
+    const RECENT_BLOG_COUNT = 5;
+    const recentBlog = [...blog].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, RECENT_BLOG_COUNT);
+
     const groupDefs = categories.map((cat) => ({
       key: cat,
       label: cat,
       items: topics
         .filter((t) => t.category === cat)
-        .map((t) => ({ id: t.id, title: t.title, href: `#/topic/${t.id}` })),
+        .map((t) => ({ id: t.id, title: t.title, icon: t.icon, href: `#/topic/${t.id}` })),
     }));
     groupDefs.push({
       key: "__blog",
       label: "Blog",
-      items: blog.map((b) => ({ id: b.id, title: b.title, href: `#/blog/${b.id}` })),
+      items: recentBlog.map((b) => ({ id: b.id, title: b.title, icon: b.icon || "post", href: `#/blog/${b.id}` })),
     });
     groupDefs.push({
       key: "__meta",
       label: "Browse",
-      items: [{ id: "__all-blog", title: "All posts", href: "#/blog" }],
+      items: [{ id: "__all-blog", title: "All posts", icon: "post", href: "#/blog" }],
     });
 
     const groupEls = groupDefs.map((group) => {
+      const containsActive = group.items.some((item) => item.id === activeId);
       const wrap = document.createElement("div");
       wrap.className = "nav-group";
       wrap.dataset.key = group.key;
+      if (activeId && !containsActive) wrap.classList.add("collapsed");
 
       const gHeader = document.createElement("div");
       gHeader.className = "nav-group-header";
@@ -57,7 +62,7 @@ const Sidebar = (() => {
         const a = document.createElement("a");
         a.className = "nav-item";
         a.href = item.href;
-        a.textContent = item.title;
+        a.innerHTML = `<span class="nav-item-icon">${Icons.svg(item.icon, 14)}</span><span class="nav-item-text">${item.title}</span>`;
         a.dataset.id = item.id;
         if (item.id === activeId) a.classList.add("active");
         itemsWrap.appendChild(a);

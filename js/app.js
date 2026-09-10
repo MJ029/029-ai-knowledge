@@ -10,6 +10,7 @@
     breadcrumb: document.getElementById("breadcrumb"),
     themeToggle: document.getElementById("theme-toggle"),
     navToggle: document.getElementById("nav-toggle"),
+    paletteTrigger: document.getElementById("palette-trigger"),
   };
 
   function topicById(id) {
@@ -42,8 +43,27 @@
     }
     manifest.topics.forEach((t) => (t.related || []).forEach((r) => addEdge(t.id, r)));
     manifest.blog.forEach((b) => (b.related || []).forEach((r) => addEdge(b.id, r)));
-
     return { nodes, edges };
+  }
+
+  function buildSearchItems(manifest) {
+    const topicItems = manifest.topics.map((t) => ({
+      id: t.id,
+      title: t.title,
+      type: "topic",
+      category: t.category,
+      icon: t.icon,
+      href: `#/topic/${t.id}`,
+    }));
+    const blogItems = manifest.blog.map((b) => ({
+      id: b.id,
+      title: b.title,
+      type: "blog",
+      category: "Blog",
+      icon: b.icon || "post",
+      href: `#/blog/${b.id}`,
+    }));
+    return topicItems.concat(blogItems);
   }
 
   function parseHash() {
@@ -238,6 +258,8 @@
       el.app.classList.toggle("sidebar-collapsed");
     });
 
+    el.paletteTrigger.addEventListener("click", () => CommandPalette.open());
+
     if (window.innerWidth <= 760) el.app.classList.add("sidebar-collapsed");
 
     window.addEventListener("hashchange", route);
@@ -249,6 +271,7 @@
       state.manifest = manifest;
       state.graphData = buildGraphData(manifest);
       document.title = manifest.site.title;
+      CommandPalette.init(buildSearchItems(manifest));
       initChrome();
       route();
     })

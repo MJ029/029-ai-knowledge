@@ -15,6 +15,7 @@
       "id": "ml",
       "title": "Machine Learning",
       "category": "Foundations",
+      "icon": "network",
       "summary": "Systems that learn patterns from data instead of explicit rules.",
       "file": "content/topics/ml.md",
       "related": ["deep-learning", "mlops"]
@@ -23,6 +24,7 @@
       "id": "mlops",
       "title": "MLOps",
       "category": "Foundations",
+      "icon": "deploy",
       "summary": "Shipping and running ML models reliably in production.",
       "file": "content/topics/mlops.md",
       "related": ["ml", "agents"]
@@ -31,6 +33,7 @@
       "id": "deep-learning",
       "title": "Deep Learning",
       "category": "Deep Learning & Modalities",
+      "icon": "layers",
       "summary": "Layered neural networks that learn hierarchical representations.",
       "file": "content/topics/deep-learning.md",
       "related": ["ml", "nlp", "computer-vision", "generative-ai"]
@@ -39,6 +42,7 @@
       "id": "nlp",
       "title": "NLP",
       "category": "Deep Learning & Modalities",
+      "icon": "chat",
       "summary": "Teaching machines to read, parse, and generate human language.",
       "file": "content/topics/nlp.md",
       "related": ["deep-learning", "llms"]
@@ -47,6 +51,7 @@
       "id": "computer-vision",
       "title": "Computer Vision",
       "category": "Deep Learning & Modalities",
+      "icon": "eye",
       "summary": "Extracting meaning from images and video.",
       "file": "content/topics/computer-vision.md",
       "related": ["deep-learning", "generative-ai"]
@@ -55,6 +60,7 @@
       "id": "generative-ai",
       "title": "Generative AI",
       "category": "Generative & Language",
+      "icon": "spark",
       "summary": "Models that create new content: text, images, audio, code.",
       "file": "content/topics/generative-ai.md",
       "related": ["deep-learning", "llms", "computer-vision", "ethics-safety"]
@@ -63,6 +69,7 @@
       "id": "llms",
       "title": "LLMs",
       "category": "Generative & Language",
+      "icon": "cpu",
       "summary": "Large language models: scale, training, and how they're used.",
       "file": "content/topics/llms.md",
       "related": ["nlp", "generative-ai", "agents", "ethics-safety"]
@@ -71,6 +78,7 @@
       "id": "agents",
       "title": "Agents",
       "category": "Generative & Language",
+      "icon": "bot",
       "summary": "LLMs given tools, memory, and loops to act toward a goal.",
       "file": "content/topics/agents.md",
       "related": ["llms", "mlops", "ethics-safety"]
@@ -79,6 +87,7 @@
       "id": "ethics-safety",
       "title": "Ethics & Safety",
       "category": "Responsible AI",
+      "icon": "shield",
       "summary": "Bias, alignment, misuse, and the guardrails around all of it.",
       "file": "content/topics/ethics-safety.md",
       "related": ["llms", "generative-ai", "agents"]
@@ -90,6 +99,7 @@
       "title": "Getting Started with LLMs",
       "date": "2026-09-10",
       "tags": ["llms", "generative-ai"],
+      "icon": "post",
       "summary": "Where to start if you're new to large language models.",
       "file": "content/blog/getting-started-with-llms.md",
       "related": ["llms", "generative-ai"]
