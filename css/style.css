@@ -70,6 +70,7 @@ button:hover { border-color: var(--accent); }
 }
 
 .main {
+  grid-column: 2;
   overflow-y: auto;
   height: 100vh;
   position: relative;

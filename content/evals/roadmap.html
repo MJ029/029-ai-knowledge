@@ -1,0 +1,1335 @@
+<header class="hero">
+  <h1>Sixty years of asking: is it any good?</h1>
+  <p class="standfirst">Every metric below is still in use somewhere in a modern AI stack, and almost none of them were invented for AI. Retrieval evaluation is a 1966 idea running underneath your vector database. Precision and recall are the reason your agent's tool router can be scored at all. The field didn't replace its methods — it <em>stacked</em> them. Read it in order once, then use the filter as a lookup.</p>
+
+  <figure class="railfig">
+  <svg viewBox="0 0 1000 250" role="img" aria-label="Timeline of evaluation methods from 1966 to 2026">
+    <defs><style>
+      .ax{stroke:#C7D0C8;stroke-width:1}
+      .tk{stroke:#C7D0C8;stroke-width:1}
+      .yl{font-family:'IBM Plex Mono',monospace;font-size:11px;fill:#7E8D90}
+      .ml{font-family:'IBM Plex Mono',monospace;font-size:11px}
+      .stem{stroke-width:1.25}
+    </style></defs>
+
+    <!-- axis -->
+    <line class="ax" x1="30" y1="150" x2="975" y2="150"/>
+    <g class="tk">
+      <line x1="40" y1="150" x2="40" y2="157"/><line x1="196" y1="150" x2="196" y2="157"/>
+      <line x1="352" y1="150" x2="352" y2="157"/><line x1="508" y1="150" x2="508" y2="157"/>
+      <line x1="664" y1="150" x2="664" y2="157"/><line x1="820" y1="150" x2="820" y2="157"/>
+      <line x1="960" y1="150" x2="960" y2="157"/>
+    </g>
+    <g class="yl" text-anchor="middle">
+      <text x="40" y="172">1966</text><text x="196" y="172">1990</text><text x="352" y="172">2002</text>
+      <text x="508" y="172">2014</text><text x="664" y="172">2020</text><text x="820" y="172">2023</text>
+      <text x="960" y="172">2026</text>
+    </g>
+
+    <!-- upper stems -->
+    <g>
+      <line class="stem" x1="52" y1="150" x2="52" y2="118" stroke="#3A5A7D"/>
+      <circle cx="52" cy="115" r="3" fill="#3A5A7D"/>
+      <text class="ml" x="52" y="106" fill="#3A5A7D" text-anchor="start">Cranfield</text>
+
+      <line class="stem" x1="168" y1="150" x2="168" y2="92" stroke="#3A5A7D"/>
+      <circle cx="168" cy="89" r="3" fill="#3A5A7D"/>
+      <text class="ml" x="168" y="80" fill="#3A5A7D">TREC</text>
+
+      <line class="stem" x1="300" y1="150" x2="300" y2="118" stroke="#2E7A6F"/>
+      <circle cx="300" cy="115" r="3" fill="#2E7A6F"/>
+      <text class="ml" x="300" y="106" fill="#2E7A6F">ROC/AUC in ML</text>
+
+      <line class="stem" x1="372" y1="150" x2="372" y2="66" stroke="#5F7A2E"/>
+      <circle cx="372" cy="63" r="3" fill="#5F7A2E"/>
+      <text class="ml" x="372" y="54" fill="#5F7A2E">BLEU</text>
+
+      <line class="stem" x1="404" y1="150" x2="404" y2="92" stroke="#3A5A7D"/>
+      <circle cx="404" cy="89" r="3" fill="#3A5A7D"/>
+      <text class="ml" x="404" y="80" fill="#3A5A7D">nDCG</text>
+
+      <line class="stem" x1="640" y1="150" x2="640" y2="92" stroke="#8A6D1F"/>
+      <circle cx="640" cy="89" r="3" fill="#8A6D1F"/>
+      <text class="ml" x="640" y="80" fill="#8A6D1F">BERTScore</text>
+
+      <line class="stem" x1="712" y1="150" x2="712" y2="118" stroke="#8A6D1F"/>
+      <circle cx="712" cy="115" r="3" fill="#8A6D1F"/>
+      <text class="ml" x="712" y="106" fill="#8A6D1F">BEIR / MTEB</text>
+
+      <line class="stem" x1="838" y1="150" x2="838" y2="66" stroke="#9B3350"/>
+      <circle cx="838" cy="63" r="3" fill="#9B3350"/>
+      <text class="ml" x="838" y="54" fill="#9B3350">LLM-as-judge</text>
+
+      <line class="stem" x1="930" y1="150" x2="930" y2="92" stroke="#2F3E8C"/>
+      <circle cx="930" cy="89" r="3" fill="#2F3E8C"/>
+      <text class="ml" x="930" y="80" fill="#2F3E8C" text-anchor="end">skills · multi-agent</text>
+    </g>
+
+    <!-- lower stems -->
+    <g>
+      <line class="stem" x1="112" y1="150" x2="112" y2="196" stroke="#3A5A7D"/>
+      <circle cx="112" cy="199" r="3" fill="#3A5A7D"/>
+      <text class="ml" x="112" y="213" fill="#3A5A7D">MAP · MRR</text>
+
+      <line class="stem" x1="248" y1="150" x2="248" y2="196" stroke="#2E7A6F"/>
+      <circle cx="248" cy="199" r="3" fill="#2E7A6F"/>
+      <text class="ml" x="248" y="213" fill="#2E7A6F">calibration · Brier</text>
+
+      <line class="stem" x1="440" y1="150" x2="440" y2="222" stroke="#5F7A2E"/>
+      <circle cx="440" cy="225" r="3" fill="#5F7A2E"/>
+      <text class="ml" x="440" y="239" fill="#5F7A2E">ROUGE · METEOR</text>
+
+      <line class="stem" x1="560" y1="150" x2="560" y2="196" stroke="#2E7A6F"/>
+      <circle cx="560" cy="199" r="3" fill="#2E7A6F"/>
+      <text class="ml" x="560" y="213" fill="#2E7A6F">drift · PSI</text>
+
+      <line class="stem" x1="796" y1="150" x2="796" y2="222" stroke="#A8532B"/>
+      <circle cx="796" cy="225" r="3" fill="#A8532B"/>
+      <text class="ml" x="796" y="239" fill="#A8532B">RAG triad · RAGAS</text>
+
+      <line class="stem" x1="884" y1="150" x2="884" y2="196" stroke="#6E3A7E"/>
+      <circle cx="884" cy="199" r="3" fill="#6E3A7E"/>
+      <text class="ml" x="884" y="213" fill="#6E3A7E">pass@k · τ-bench</text>
+    </g>
+  </svg>
+  <figcaption class="figcap">Colour marks the layer, not the year: blue = retrieval, teal = supervised ML, olive = text generation, bronze = embeddings, orange = RAG, claret = judges, plum = agents, indigo = systems. Later layers reuse earlier formulas rather than replacing them.</figcaption>
+  </figure>
+</header>
+
+<!-- ============ MODULE 0 ============ -->
+<section class="module" id="m0" style="--era:var(--e0)">
+  <div class="mhead"><span class="era-yr">module 0</span><h2>How to think about evals</h2></div>
+  <p class="intro">Before any formula: an eval is a <strong>measurement instrument</strong>, and instruments have their own error. Half of senior-level interview credit comes from showing you know the instrument can be wrong, not from reciting metric names.</p>
+
+  <h3>The five axes every metric sits on</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Axis</th><th>Left pole</th><th>Right pole</th><th>What it costs you</th></tr></thead>
+    <tbody>
+      <tr><td>reference</td><td>reference-based (needs ground truth)</td><td>reference-free (judged on its own)</td><td>labels vs. trust in the judge</td></tr>
+      <tr><td>granularity</td><td>component (retriever, router, tool)</td><td>end-to-end (task success)</td><td>diagnosability vs. realism</td></tr>
+      <tr><td>scoring</td><td>deterministic (string, exact, numeric)</td><td>model-graded / human</td><td>cheap+brittle vs. flexible+noisy</td></tr>
+      <tr><td>timing</td><td>offline (golden set, CI)</td><td>online (A/B, guardrails, prod)</td><td>fast loop vs. real signal</td></tr>
+      <tr><td>comparison</td><td>pointwise (absolute score)</td><td>pairwise / listwise (relative)</td><td>interpretable vs. much lower variance</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>The three levels, and why you need all three</h3>
+  <p><strong>Level 1 — component.</strong> Retriever nDCG, tool-selection F1, classifier AUC. Fast, cheap, deterministic, runs in CI on every commit. Tells you <em>what</em> broke.</p>
+  <p><strong>Level 2 — task.</strong> End-to-end success on a golden set of realistic user goals. Slower, model-graded, run nightly or per-release. Tells you <em>whether the change helped</em>.</p>
+  <p><strong>Level 3 — product.</strong> Deflection rate, human escalation, edit distance from the human's final version, cost per resolved ticket, CSAT. Runs in production. Tells you <em>whether it matters</em>.</p>
+  <p>Component metrics can improve while task metrics fall — a reranker that raises nDCG@10 by pushing a near-duplicate to rank 2 gives the generator no new information. Always name this in an interview; it's the single most common real-world failure and interviewers listen for it.</p>
+
+  <h3>Goodhart's law is the background hum</h3>
+  <p>"When a measure becomes a target, it ceases to be a good measure." Every layer below has its own Goodhart failure: BLEU rewards n-gram overlap so models learn to parrot; LLM judges reward length so models pad; SWE-bench leaks into pretraining so scores rise without capability. The defensive practices — held-out private slices, canary strings, adversarial sets, periodic re-baselining against human labels — are the same at every layer.</p>
+
+  <div class="ask">
+    <p class="q">"Where would you start if we handed you an LLM feature with no evals at all?"</p>
+    <p>Answer the order, not the metrics. <strong>1)</strong> Collect 50–100 real traces from prod or from the people who'll use it. <strong>2)</strong> Read them by hand and build an error taxonomy — you will find 4–8 recurring failure modes, and that taxonomy <em>is</em> your eval spec. <strong>3)</strong> Write binary assertions for the deterministic ones (schema valid, citation present, refused correctly). <strong>4)</strong> Write an LLM judge only for the modes assertions can't catch, and validate that judge against ~100 human labels before you trust a single number from it. <strong>5)</strong> Freeze it as a golden set in CI, then add online guardrails. Anyone who opens with "I'd compute RAGAS faithfulness" has skipped the part that actually determines success.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 1 ============ -->
+<section class="module" id="m1" style="--era:var(--e1)">
+  <div class="mhead"><span class="era-yr">1966–1999</span><h2>Information retrieval: where all of it starts</h2></div>
+  <p class="intro">Cyril Cleverdon's <strong>Cranfield experiments</strong> (1960s) established the paradigm still in use today: a fixed document collection, a fixed set of queries, human relevance judgements, and a metric computed over the ranked list. NIST's <strong>TREC</strong> (1992) industrialised it. Every retrieval number in your RAG pipeline is a Cranfield number.</p>
+
+  <h3>The confusion matrix and its children</h3>
+
+  <div class="metric">
+    <div class="name">Precision · Recall · F<sub>β</sub> <span class="born">Kent et al. 1955; Van Rijsbergen 1979 for F</span></div>
+    <p>Precision is "of what I returned, how much was right." Recall is "of what was right, how much did I return." They trade off: returning everything gives recall 1.0 and precision ≈ 0.</p>
+    <div class="f"><b>P</b> = TP / (TP + FP)        <span class="c">— purity of the returned set</span>
+<b>R</b> = TP / (TP + FN)        <span class="c">— coverage of the relevant set</span>
+
+<b>F<sub>β</sub></b> = (1 + β²) · P·R / (β²·P + R)
+
+β = 1 → F1, the harmonic mean.  β = 2 → recall weighted 2× (screening).
+β = 0.5 → precision weighted 2× (when a false positive is expensive).</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Set retrieval, classification, tool-selection scoring, entity extraction, guardrail classifiers.</span></div>
+      <div><span class="k">when</span><span class="v">The output is a <strong>set</strong>, order doesn't matter, and you have binary labels.</span></div>
+      <div><span class="k">why</span><span class="v">It splits the two ways of being wrong. Accuracy hides both; F1 forces you to say which error you fear.</span></div>
+    </div>
+    <div class="trap"><p>F1 is the <em>harmonic</em> mean, so it collapses toward the worse of the two. And the harmonic mean of precision and recall has no natural interpretation — it is a convenience, not a truth. When positives are ~1% of the data, report PR-AUC or MCC alongside it.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Precision@k · Recall@k · R-Precision</div>
+    <p>Cut the ranked list at <code>k</code> and compute precision/recall on the top-k only. R-Precision sets k = number of known relevant documents for that query, making it self-normalising.</p>
+    <div class="f"><b>P@k</b> = (# relevant in top-k) / k
+<b>R@k</b> = (# relevant in top-k) / (total # relevant)
+<b>R-Prec</b> = P@R, where R = |relevant set for this query|</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">The primary retriever metric in RAG. <code>k</code> = number of chunks you actually stuff into the prompt.</span></div>
+      <div><span class="k">when</span><span class="v">You have a hard budget on how many results the downstream consumer can absorb.</span></div>
+      <div><span class="k">why</span><span class="v">A user (or a context window) only sees the top few. Precision below rank k is irrelevant to both.</span></div>
+    </div>
+    <div class="trap"><p>P@k is insensitive to ordering <em>within</em> the top k, and is capped when a query has fewer than k relevant docs. For RAG specifically, <strong>Recall@k is usually the metric that matters</strong> — if the answer-bearing chunk isn't in the context, no amount of generator quality saves you. Precision matters second, as a distraction/cost control.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Average Precision · MAP <span class="born">TREC-era standard</span></div>
+    <p>Average Precision averages P@k at every rank where a relevant document appears — rewarding systems that put relevant items early. MAP is the mean of AP across queries.</p>
+    <div class="f"><b>AP</b> = (1 / |R|) · Σ<sub>k=1..n</sub> P@k · rel(k)      <span class="c">rel(k) ∈ {0,1}</span>
+
+<b>MAP</b> = (1 / |Q|) · Σ<sub>q∈Q</sub> AP(q)
+
+Example, relevant at ranks 1, 3, 4 out of 3 total relevant:
+  AP = (1/1 + 2/3 + 3/4) / 3 = 0.806</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Classic IR leaderboards, recommender offline eval, any binary-relevance ranking task.</span></div>
+      <div><span class="k">when</span><span class="v">Relevance is <strong>binary</strong> and you care about the whole ranked list, not just the top slot.</span></div>
+      <div><span class="k">why</span><span class="v">Single number, rank-sensitive, well understood. Strongly correlated with user satisfaction in navigational search.</span></div>
+    </div>
+    <div class="trap"><p>MAP assumes binary relevance. If your labels are graded (perfect / good / marginal / irrelevant), you're throwing information away — use nDCG.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">MRR — Mean Reciprocal Rank</div>
+    <p>Only the position of the <em>first</em> correct result counts.</p>
+    <div class="f"><b>MRR</b> = (1 / |Q|) · Σ<sub>q</sub> 1 / rank<sub>first-relevant</sub>(q)
+
+rank 1 → 1.00   rank 2 → 0.50   rank 3 → 0.33   rank 10 → 0.10
+No relevant result found → contribute 0.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Question answering, "known-item" search, autocomplete, tool/function selection, entity linking.</span></div>
+      <div><span class="k">when</span><span class="v">Exactly one right answer exists and the user stops as soon as they find it.</span></div>
+      <div><span class="k">why</span><span class="v">Cheap to compute, needs only one label per query, and directly models "how far did I have to scroll."</span></div>
+    </div>
+    <div class="trap"><p>MRR ignores everything after the first hit — a system that returns one good doc then nine terrible ones scores identically to one that returns ten good docs. Useless for multi-hop RAG, where you need <em>several</em> supporting chunks.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">DCG · nDCG <span class="born">Järvelin &amp; Kekäläinen, 2002</span></div>
+    <p>The workhorse of graded-relevance ranking. Gain grows with the relevance grade, discounted logarithmically by rank, then normalised by the perfect ordering so scores are comparable across queries.</p>
+    <div class="f"><b>DCG@k</b> = Σ<sub>i=1..k</sub> (2^rel<sub>i</sub> − 1) / log₂(i + 1)     <span class="c">exponential-gain form (standard)</span>
+
+<b>IDCG@k</b> = DCG@k of the ideally sorted list
+<b>nDCG@k</b> = DCG@k / IDCG@k        ∈ [0, 1]
+
+Discounts: rank 1 → 1/1.00   rank 2 → 1/1.58   rank 3 → 1/2.00   rank 10 → 1/3.46
+Grades typically 0–3 or 0–4, so a "perfect" doc at rank 1 is worth (2⁴−1)/1 = 15.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Web search, e-commerce ranking, reranker evaluation, BEIR / MTEB leaderboards (nDCG@10 is the default there).</span></div>
+      <div><span class="k">when</span><span class="v">Relevance is <strong>graded</strong>, and there are many degrees of "sort of useful."</span></div>
+      <div><span class="k">why</span><span class="v">It's the only classic metric that handles graded labels and position discount together, and it's normalised so you can average across queries with different numbers of relevant docs.</span></div>
+    </div>
+    <div class="trap"><p>Two forms exist — linear gain <code>rel<sub>i</sub></code> and exponential <code>2^rel−1</code>. They give different numbers; say which you used. nDCG is also insensitive to <em>redundancy</em>: three near-identical chunks at ranks 1–3 score perfectly but give the LLM one fact. That gap is exactly why RAG needed its own metrics.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">ERR — Expected Reciprocal Rank <span class="born">Chapelle et al., 2009</span></div>
+    <p>A cascade model: the user scans down and stops with probability proportional to the relevance of what they see, so a highly relevant doc at rank 1 <em>discounts everything below it</em>.</p>
+    <div class="f">R<sub>i</sub> = (2^rel<sub>i</sub> − 1) / 2^rel<sub>max</sub>       <span class="c">stop probability at rank i</span>
+
+<b>ERR</b> = Σ<sub>i=1..n</sub> (1/i) · R<sub>i</sub> · Π<sub>j&lt;i</sub> (1 − R<sub>j</sub>)</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Commercial web search evaluation; anywhere user behaviour is genuinely "scan until satisfied."</span></div>
+      <div><span class="k">when</span><span class="v">You want a metric grounded in a user model rather than an arbitrary log discount.</span></div>
+      <div><span class="k">why</span><span class="v">Correlates better with click behaviour than nDCG for navigational queries. Rarely used in RAG — the LLM reads all k chunks, so a cascade model is the wrong user model.</span></div>
+    </div>
+  </div>
+
+  <h3>The judgements themselves: pooling and agreement</h3>
+  <p>You cannot label a million documents per query. TREC's answer was <strong>pooling</strong>: run many systems, take the union of everyone's top-k, judge only that pool, treat unjudged as irrelevant. This biases against new systems that surface documents nobody pooled — which is exactly what happened when dense retrievers arrived and looked worse than they were on old TREC collections.</p>
+
+  <div class="metric">
+    <div class="name">bpref <span class="born">Buckley &amp; Voorhees, 2004</span></div>
+    <p>Designed for incomplete judgements: it counts only how often a judged-relevant doc is ranked above a judged-irrelevant one, ignoring unjudged documents entirely.</p>
+    <div class="f"><b>bpref</b> = (1/R) · Σ<sub>r</sub> [ 1 − |n ranked higher than r| / min(R, N) ]
+
+R = # judged relevant, N = # judged irrelevant</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Sparse-label settings — which includes most enterprise RAG golden sets you'll ever build.</span></div>
+      <div><span class="k">when</span><span class="v">You have labels for a handful of docs per query and cannot assume the rest are irrelevant.</span></div>
+      <div><span class="k">why</span><span class="v">Stops you from punishing a retriever for finding a good document your annotators never saw. Worth naming in an interview — it signals you've built a real golden set.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Cohen's κ · Fleiss' κ · Krippendorff's α</div>
+    <p>Inter-annotator agreement, corrected for chance. If your humans don't agree with each other, no model can be scored against them — and this is the same formula you'll later use to validate an LLM judge.</p>
+    <div class="f"><b>κ</b> = (p<sub>o</sub> − p<sub>e</sub>) / (1 − p<sub>e</sub>)
+
+p<sub>o</sub> = observed agreement,  p<sub>e</sub> = agreement expected by chance
+
+Cohen's κ  → exactly 2 raters, nominal labels
+Fleiss' κ  → 3+ raters
+Krippendorff's α → any # raters, missing data, ordinal/interval scales
+
+Rough reading: &lt;0.2 poor · 0.2–0.4 fair · 0.4–0.6 moderate
+              0.6–0.8 substantial · &gt;0.8 near-ceiling</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Annotation QA, rubric design, and — critically — judge validation in modules 6–8.</span></div>
+      <div><span class="k">when</span><span class="v">Before you spend money labelling 5,000 examples. Pilot on 50 with 3 raters first.</span></div>
+      <div><span class="k">why</span><span class="v">κ &lt; 0.4 means your rubric is ambiguous, not that your raters are bad. Fix the rubric.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Kendall's τ · Spearman's ρ</div>
+    <p>Rank correlation between two orderings — used to ask "does my cheap metric rank systems the same way my expensive metric does?"</p>
+    <div class="f"><b>τ</b> = (C − D) / (n(n−1)/2)      <span class="c">C = concordant pairs, D = discordant</span>
+<b>ρ</b> = 1 − 6·Σd<sub>i</sub>² / (n(n²−1))    <span class="c">d = difference in ranks</span></div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Meta-evaluation: "does BLEU agree with humans?", "does my LLM judge rank the same as my annotators?"</span></div>
+      <div><span class="k">when</span><span class="v">You're validating a proxy metric, not a system.</span></div>
+      <div><span class="k">why</span><span class="v">A proxy that gets absolute values wrong but rankings right is still usable for model selection. τ tells you that; MAE doesn't.</span></div>
+    </div>
+  </div>
+
+  <div class="ask">
+    <p class="q">"For a RAG retriever, do you optimise precision or recall?"</p>
+    <p><strong>Recall@k first, precision second, and the answer changes with context-window economics.</strong> If the answer-bearing chunk is missing, the generator cannot recover — that's an unrecoverable failure. Extra irrelevant chunks are recoverable: a strong model ignores them. So set k as large as latency and cost allow, maximise Recall@k, then use a reranker to raise precision <em>within</em> that budget. The nuance that earns the point: past a certain k, precision starts mattering again because of distraction and lost-in-the-middle effects, so you tune k empirically against end-to-end answer correctness, not against a retrieval metric.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 2 ============ -->
+<section class="module" id="m2" style="--era:var(--e2)">
+  <div class="mhead"><span class="era-yr">1990–2015</span><h2>Traditional ML: thresholds, probabilities, and drift</h2></div>
+  <p class="intro">Supervised learning brought two ideas that IR didn't have: models emit <strong>scores</strong>, not sets, so the threshold is a separate decision from the model; and models <strong>decay</strong>, so evaluation is a monitoring problem, not a one-off. Both ideas transfer directly to guardrail classifiers and LLM routers today.</p>
+
+  <h3>Classification</h3>
+
+  <div class="metric">
+    <div class="name">Accuracy · Balanced accuracy · MCC</div>
+    <p>Accuracy is the default and the trap. With 1% positives, predicting "negative" always scores 99%. Balanced accuracy averages per-class recall; MCC (Matthews correlation) uses all four cells of the confusion matrix and is the most honest single number for imbalanced binary problems.</p>
+    <div class="f"><b>Acc</b> = (TP + TN) / (TP + TN + FP + FN)
+
+<b>BalAcc</b> = ½ · ( TP/(TP+FN) + TN/(TN+FP) )      <span class="c">mean of sensitivity &amp; specificity</span>
+
+<b>MCC</b> =        TP·TN − FP·FN
+       ─────────────────────────────────────────
+       √( (TP+FP)(TP+FN)(TN+FP)(TN+FN) )
+
+MCC ∈ [−1, 1].  0 = random.  1 = perfect.  −1 = perfectly inverted.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Any classifier: churn, fraud, PII detection, toxicity guardrails, intent routing.</span></div>
+      <div><span class="k">when</span><span class="v">Use accuracy only when classes are roughly balanced <em>and</em> error costs are symmetric. Otherwise MCC or per-class P/R/F1.</span></div>
+      <div><span class="k">why</span><span class="v">MCC is high only when the model does well on <em>both</em> classes, so it can't be gamed by the majority class.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">ROC-AUC <span class="born">signal-detection theory, 1940s → ML, 1990s</span></div>
+    <p>Plot TPR against FPR across every possible threshold; the area underneath is the probability that a randomly chosen positive scores above a randomly chosen negative. It's threshold-free — a property of the model's <em>ranking</em>, not of any decision rule.</p>
+    <div class="f"><b>TPR</b> = TP/(TP+FN)     <b>FPR</b> = FP/(FP+TN)
+
+<b>AUC</b> = P( score(x⁺) &gt; score(x⁻) )       <span class="c">= normalised Mann–Whitney U</span>
+
+0.5 = random · 0.7 fair · 0.8 good · &gt;0.9 suspicious (check for leakage)</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Model comparison and selection, credit risk, medical triage, ad ranking.</span></div>
+      <div><span class="k">when</span><span class="v">You haven't chosen an operating threshold yet, and classes aren't extremely imbalanced.</span></div>
+      <div><span class="k">why</span><span class="v">Lets you compare two models before committing to a business threshold, and is invariant to class prior shifts.</span></div>
+    </div>
+    <div class="trap"><p>With 0.1% positives, ROC-AUC stays optimistic because FPR has a huge denominator — 1,000 false positives out of a million negatives barely moves FPR but destroys precision. Use PR-AUC in the rare-positive regime.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">PR-AUC / Average Precision</div>
+    <p>Same idea, precision plotted against recall. The baseline is the positive class prevalence, not 0.5 — an AP of 0.30 on a 2%-positive problem is a 15× lift.</p>
+    <div class="f"><b>AP</b> = Σ<sub>n</sub> (R<sub>n</sub> − R<sub>n−1</sub>) · P<sub>n</sub>       <span class="c">step-wise, no interpolation (sklearn default)</span>
+
+baseline AP = prevalence = positives / total</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Fraud, anomaly detection, information extraction, safety classifiers, needle-in-haystack retrieval.</span></div>
+      <div><span class="k">when</span><span class="v">Positives are rare and you only care about performance on the positive class.</span></div>
+      <div><span class="k">why</span><span class="v">Precision is what the on-call human experiences. PR-AUC tracks it; ROC-AUC hides it.</span></div>
+    </div>
+  </div>
+
+  <h3>Probability quality: the part people skip</h3>
+
+  <div class="metric">
+    <div class="name">Log loss · Brier score</div>
+    <p>Proper scoring rules — they're minimised only when the predicted probability equals the true probability, so they measure <em>calibration and discrimination together</em>.</p>
+    <div class="f"><b>LogLoss</b> = −(1/N) Σ<sub>i</sub> Σ<sub>c</sub> y<sub>i,c</sub> · log(p<sub>i,c</sub>)
+
+<b>Brier</b> = (1/N) Σ<sub>i</sub> (p<sub>i</sub> − y<sub>i</sub>)²        <span class="c">binary case; ∈ [0,1], lower is better</span></div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Anywhere a downstream system consumes the probability — expected-value decisions, routing thresholds, abstention logic, cascade routers that send hard queries to a bigger model.</span></div>
+      <div><span class="k">when</span><span class="v">The number itself is used, not just the argmax.</span></div>
+      <div><span class="k">why</span><span class="v">Log loss punishes confident mistakes brutally (−log(0.01) = 4.6). Brier is gentler and bounded, so it's more stable when a few predictions are near 0 or 1.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Calibration: reliability diagrams and ECE</div>
+    <p>Bin predictions by confidence and compare mean confidence to actual accuracy in each bin. A perfectly calibrated model sits on the diagonal: of everything it called 70% likely, 70% happened.</p>
+    <div class="f"><b>ECE</b> = Σ<sub>m=1..M</sub> (|B<sub>m</sub>| / n) · | acc(B<sub>m</sub>) − conf(B<sub>m</sub>) |
+
+<b>MCE</b> = max<sub>m</sub> | acc(B<sub>m</sub>) − conf(B<sub>m</sub>) |      <span class="c">worst-bin, for safety-critical</span>
+
+Fixes: Platt scaling (fit a sigmoid on a holdout)
+       Isotonic regression (non-parametric, needs more data)
+       Temperature scaling (single T on logits — the standard for neural nets)</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Risk models, medical, and now LLM confidence: "should this agent escalate to a human?" is a calibration question.</span></div>
+      <div><span class="k">when</span><span class="v">Whenever you set a threshold for abstention, escalation, or auto-approval.</span></div>
+      <div><span class="k">why</span><span class="v">Modern deep nets are systematically over-confident. An uncalibrated 0.9 threshold means something different after every retrain.</span></div>
+    </div>
+    <div class="trap"><p>ECE is sensitive to the number of bins and can be near-zero for a model that's uninformative but honestly says 0.5 everywhere. Always report it next to AUC — calibration without discrimination is worthless.</p></div>
+  </div>
+
+  <h3>Regression and forecasting</h3>
+
+  <div class="metric">
+    <div class="name">MAE · RMSE · MAPE · sMAPE · MASE · R²</div>
+    <div class="f"><b>MAE</b>  = (1/n) Σ |y − ŷ|                <span class="c">median-optimal, robust to outliers</span>
+<b>RMSE</b> = √( (1/n) Σ (y − ŷ)² )        <span class="c">mean-optimal, punishes big misses</span>
+<b>RMSLE</b>= √( (1/n) Σ (log(1+y) − log(1+ŷ))² )   <span class="c">relative error, skewed targets</span>
+
+<b>MAPE</b> = (100/n) Σ |y − ŷ| / |y|      <span class="c">breaks at y ≈ 0; asymmetric</span>
+<b>sMAPE</b>= (100/n) Σ 2|y − ŷ| / (|y| + |ŷ|)
+
+<b>MASE</b> = MAE / MAE<sub>naïve seasonal</sub>          <span class="c">&lt;1 beats the naïve baseline</span>
+
+<b>R²</b>   = 1 − SS<sub>res</sub>/SS<sub>tot</sub>       <b>adj-R²</b> = 1 − (1−R²)(n−1)/(n−p−1)
+
+<b>Pinball</b>(τ) = max( τ(y−ŷ), (τ−1)(y−ŷ) )   <span class="c">quantile forecasts</span></div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Demand forecasting, pricing, latency/cost prediction, capacity planning.</span></div>
+      <div><span class="k">when</span><span class="v">RMSE if large errors are disproportionately costly; MAE if not. MASE for cross-series comparison — it's scale-free and doesn't explode near zero.</span></div>
+      <div><span class="k">why</span><span class="v">Choosing RMSE vs MAE is implicitly choosing whether you're predicting a mean or a median. Say so out loud in an interview.</span></div>
+    </div>
+  </div>
+
+  <h3>Validation design — where most real errors live</h3>
+  <p>The metric is rarely the problem; the split usually is.</p>
+  <ul>
+    <li><strong>Hold-out</strong> — one split, fast, high variance. Fine above ~50k rows.</li>
+    <li><strong>k-fold / stratified k-fold</strong> — k=5 or 10; stratify on the label for imbalance.</li>
+    <li><strong>Grouped k-fold</strong> — when rows share an entity (patient, customer, document). Without it, the same entity appears in train and test and you leak.</li>
+    <li><strong>Nested CV</strong> — outer loop estimates performance, inner loop tunes hyperparameters. Skipping this means your reported score includes selection bias.</li>
+    <li><strong>Time-series / walk-forward split</strong> — train on [0,t], test on (t, t+h], roll forward. Never shuffle time. Add an embargo gap if features have lookback windows.</li>
+  </ul>
+  <p><strong>Leakage checklist:</strong> target-derived features, post-outcome timestamps, duplicated rows across splits, fitting the scaler/encoder before the split, using future aggregates, and — in the LLM era — benchmark text present in pretraining data.</p>
+
+  <h3>Statistical significance</h3>
+  <div class="f"><b>Bootstrap CI</b>: resample the test set with replacement B=1000×, recompute
+  the metric each time, take the 2.5th and 97.5th percentiles.
+  Use the <b>paired</b> bootstrap (same resampled indices for both models).
+
+<b>McNemar's test</b> — two classifiers, same test set, binary correct/incorrect:
+  χ² = (|b − c| − 1)² / (b + c)
+  b = A right &amp; B wrong,  c = A wrong &amp; B right.  Only disagreements count.
+
+<b>Permutation test</b> — shuffle the model labels between systems 10k times,
+  see how often the observed gap appears by chance. No distributional assumption.
+
+<b>Multiple comparisons</b> — testing 20 variants at α=0.05 gives you ~1 false
+  winner by construction. Apply Holm–Bonferroni or Benjamini–Hochberg (FDR).</div>
+
+  <h3>Drift and monitoring: evaluation after deployment</h3>
+
+  <div class="metric">
+    <div class="name">PSI · KL · JS · KS</div>
+    <p>Ground truth arrives late or never, so you monitor the <em>inputs and outputs</em> for distribution change as a leading indicator.</p>
+    <div class="f"><b>PSI</b> = Σ<sub>i</sub> (a<sub>i</sub> − e<sub>i</sub>) · ln(a<sub>i</sub> / e<sub>i</sub>)     <span class="c">a = actual %, e = expected % per bin</span>
+  &lt;0.10 stable · 0.10–0.25 investigate · &gt;0.25 significant shift
+
+<b>KL</b>(P‖Q) = Σ P(x) log( P(x)/Q(x) )   <span class="c">asymmetric, unbounded, blows up on zeros</span>
+<b>JS</b>(P,Q) = ½KL(P‖M) + ½KL(Q‖M), M=½(P+Q)  <span class="c">symmetric, bounded, √JS is a metric</span>
+<b>KS</b> = sup<sub>x</sub> |F<sub>P</sub>(x) − F<sub>Q</sub>(x)|          <span class="c">continuous univariate, nonparametric</span></div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Feature monitoring, embedding drift, prompt-distribution drift, and output drift for LLM apps (response length, refusal rate, tool-mix).</span></div>
+      <div><span class="k">when</span><span class="v">Continuously in production; PSI weekly on top features is the standard enterprise pattern.</span></div>
+      <div><span class="k">why</span><span class="v">Distinguishes <strong>data drift</strong> (inputs moved) from <strong>concept drift</strong> (the input→output relationship moved). Data drift you can often ignore; concept drift always needs a retrain.</span></div>
+    </div>
+    <div class="trap"><p>Drift is not degradation. A feature can shift a lot with no accuracy loss, and accuracy can collapse with no visible input drift. Drift alerts are triage signals, not incidents. With enough traffic, every KS test is significant — use effect sizes and thresholds, not p-values.</p></div>
+  </div>
+
+  <h3>Fairness metrics — one line each</h3>
+  <div class="f"><b>Demographic parity</b>   P(ŷ=1 | A=a) equal across groups
+<b>Equal opportunity</b>    TPR equal across groups
+<b>Equalized odds</b>       TPR and FPR both equal across groups
+<b>Predictive parity</b>    PPV (precision) equal across groups
+<b>Disparate impact</b>     ratio of selection rates; &lt;0.8 is the classic "4/5ths rule" flag
+
+Impossibility result: with unequal base rates you cannot satisfy
+calibration, equal FPR and equal FNR simultaneously. You must choose.</div>
+
+  <p class="dim"><strong>Tooling:</strong> scikit-learn (metrics), MLflow (tracking + model registry), Evidently and NannyML (drift/monitoring), Great Expectations and Soda (data quality), deepchecks, Fairlearn / AIF360 (fairness). On Databricks specifically: Lakehouse Monitoring for drift and data quality, MLflow evaluate for model-level metrics.</p>
+
+  <div class="ask">
+    <p class="q">"Your model's AUC is unchanged in production but the business says it got worse. What do you check?"</p>
+    <p>AUC is threshold-free and prior-invariant, so it can hold steady while the things people feel move a lot. Check, in order: <strong>(1)</strong> class prevalence — if positives halved, precision at your fixed threshold halved with it while AUC didn't budge; <strong>(2)</strong> calibration — a retrain can shift the score distribution so the old threshold now sits somewhere else on the curve; <strong>(3)</strong> segment-level performance — overall AUC can be flat while a growing segment collapses (Simpson's paradox); <strong>(4)</strong> label delay — you may be scoring on a biased, quickly-resolved subset; <strong>(5)</strong> whether "worse" means a metric at all, or means latency, coverage, or a changed downstream policy.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 3 ============ -->
+<section class="module" id="m3" style="--era:var(--e3)">
+  <div class="mhead"><span class="era-yr">2002–2020</span><h2>Text generation: from n-gram overlap to learned similarity</h2></div>
+  <p class="intro">Machine translation forced the first automatic evaluation of free text. The whole family assumes <strong>one or a few reference answers exist</strong> and that a good output resembles them. That assumption is what broke when LLMs arrived — but these metrics are still correct and cheap for constrained generation, and interviewers use them to test whether you know <em>why</em> they were abandoned.</p>
+
+  <div class="metric">
+    <div class="name">BLEU <span class="born">Papineni et al., IBM, 2002</span></div>
+    <p>Modified n-gram <em>precision</em> against one or more references, geometrically averaged over n=1..4, with a brevity penalty to stop the model from emitting three safe words.</p>
+    <div class="f">clipped count: a candidate n-gram counts at most as often
+as it appears in any single reference.
+
+<b>p<sub>n</sub></b> = Σ clipped matches of n-grams / Σ candidate n-grams
+
+<b>BP</b> = 1                if c &gt; r
+       e^(1 − r/c)       if c ≤ r        <span class="c">c = candidate len, r = ref len</span>
+
+<b>BLEU</b> = BP · exp( Σ<sub>n=1..N</sub> w<sub>n</sub> · log p<sub>n</sub> )     <span class="c">usually N=4, w<sub>n</sub>=¼</span>
+
+Note: if any p<sub>n</sub> = 0 the whole score is 0 → BLEU is corpus-level,
+not sentence-level. Use sacreBLEU for reproducible tokenisation.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Machine translation, code translation, deterministic format conversion, SQL generation (alongside execution accuracy).</span></div>
+      <div><span class="k">when</span><span class="v">The output space is genuinely narrow and you have real references. Corpus-level comparisons only.</span></div>
+      <div><span class="k">why</span><span class="v">Free, instant, reproducible, and historically correlated ~0.6–0.8 with human MT judgements at the corpus level.</span></div>
+    </div>
+    <div class="trap"><p>Precision-only, so it ignores information you failed to include. Zero credit for correct paraphrase. Meaningless on a single sentence. Tokenisation-dependent — two papers reporting "BLEU 34" may not be comparable at all.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">ROUGE <span class="born">Chin-Yew Lin, 2004</span></div>
+    <p>BLEU's recall-oriented sibling, built for summarisation: did the summary <em>cover</em> what the reference covered?</p>
+    <div class="f"><b>ROUGE-N</b> = Σ<sub>ref</sub> Σ<sub>n-gram</sub> match / Σ<sub>ref</sub> Σ<sub>n-gram</sub> count      <span class="c">recall over references</span>
+   ROUGE-1 = unigram overlap · ROUGE-2 = bigram overlap
+
+<b>ROUGE-L</b> uses the Longest Common Subsequence (order-aware, gap-tolerant):
+   R<sub>lcs</sub> = LCS(X,Y)/|Y|      P<sub>lcs</sub> = LCS(X,Y)/|X|
+   F<sub>lcs</sub> = (1+β²)·R·P / (R + β²·P)
+
+<b>ROUGE-Lsum</b> — LCS computed per sentence then aggregated (the summarisation default)</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Summarisation benchmarks (CNN/DailyMail, XSum), extraction coverage checks, meeting-notes QA.</span></div>
+      <div><span class="k">when</span><span class="v">You care about coverage of required content and you have reference summaries.</span></div>
+      <div><span class="k">why</span><span class="v">Cheap regression signal. Still useful as a <em>guardrail</em>: a sudden ROUGE-1 drop after a prompt change means content went missing, even if you no longer trust it as a quality score.</span></div>
+    </div>
+    <div class="trap"><p>Extractive systems that copy sentences beat abstractive ones that write better summaries. ROUGE cannot see factual errors at all — a summary that inverts a negation scores almost identically.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">METEOR · chrF · TER · WER</div>
+    <div class="f"><b>METEOR</b> (2005): unigram alignment allowing stems, synonyms, paraphrase.
+  F<sub>mean</sub> = 10·P·R / (R + 9·P)          <span class="c">recall weighted 9×</span>
+  Penalty = 0.5 · (chunks / matches)³     <span class="c">fragmentation</span>
+  METEOR = F<sub>mean</sub> · (1 − Penalty)
+
+<b>chrF</b> (2015): character n-gram F-score (β=2). Strong for morphologically
+  rich languages and robust to tokenisation. Good default over BLEU.
+
+<b>TER</b>: edit distance in words — (insert+delete+substitute+shift) / ref length.
+
+<b>WER</b> (speech): (S + D + I) / N.  Can exceed 1.0.
+  CER is the same at character level.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">METEOR/chrF for MT; TER for post-editing effort estimation; WER/CER for ASR, OCR and document-extraction pipelines.</span></div>
+      <div><span class="k">when</span><span class="v">WER is the one you'll actually reach for in enterprise work — any speech or scanned-document ingestion stage needs it.</span></div>
+      <div><span class="k">why</span><span class="v">Edit-distance metrics map to human effort: TER ≈ "how much would a human have to fix."</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Perplexity</div>
+    <p>The exponentiated average negative log-likelihood — intuitively, the effective number of equally likely next tokens the model is choosing between.</p>
+    <div class="f"><b>PPL</b>(X) = exp( − (1/N) · Σ<sub>i=1..N</sub> log p<sub>θ</sub>(x<sub>i</sub> | x<sub>&lt;i</sub>) )
+
+equivalently: PPL = 2^H where H is cross-entropy in bits</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Pretraining and continued-pretraining monitoring, domain-adaptation checks, quantisation quality checks.</span></div>
+      <div><span class="k">when</span><span class="v">Comparing checkpoints of <strong>the same model family on the same tokenizer and the same corpus</strong>. Nowhere else.</span></div>
+      <div><span class="k">why</span><span class="v">It's the training objective, so it's the most sensitive early signal that something is going wrong.</span></div>
+    </div>
+    <div class="trap"><p>Not comparable across tokenizers or corpora, and only weakly related to downstream usefulness — instruction tuning and RLHF often <em>raise</em> perplexity while making the model much more useful. Never quote perplexity as a product quality metric.</p></div>
+  </div>
+
+  <h3>The learned-metric turn</h3>
+
+  <div class="metric">
+    <div class="name">BERTScore <span class="born">Zhang et al., 2019</span></div>
+    <p>Replace exact n-gram matching with greedy cosine matching between contextual token embeddings, so paraphrase gets credit.</p>
+    <div class="f">Embed candidate x̂ and reference x with a contextual encoder.
+
+<b>R<sub>BERT</sub></b> = (1/|x|)  Σ<sub>x<sub>i</sub>∈x</sub>  max<sub>x̂<sub>j</sub></sub>  x<sub>i</sub><sup>T</sup>x̂<sub>j</sub>
+<b>P<sub>BERT</sub></b> = (1/|x̂|) Σ<sub>x̂<sub>j</sub>∈x̂</sub> max<sub>x<sub>i</sub></sub>  x<sub>i</sub><sup>T</sup>x̂<sub>j</sub>
+<b>F<sub>BERT</sub></b> = 2·P·R/(P+R)
+
+Optional IDF weighting; scores are rescaled against a baseline
+because raw cosine sits in a narrow band (~0.85–0.95).</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Summarisation and generation eval where paraphrase is legitimate; still common as a cheap semantic-regression check in RAG pipelines.</span></div>
+      <div><span class="k">when</span><span class="v">You have references, want more than lexical overlap, and can't afford an LLM judge on every row.</span></div>
+      <div><span class="k">why</span><span class="v">Roughly 2 orders of magnitude cheaper than judge calls, and much better correlated with humans than BLEU/ROUGE.</span></div>
+    </div>
+    <div class="trap"><p>Still blind to factuality and to negation — "the drug reduced mortality" and "the drug did not reduce mortality" embed very close together. Never use it as a hallucination check.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">BLEURT · COMET · MoverScore <span class="born">2020</span></div>
+    <p>Fully learned metrics: a transformer fine-tuned on human quality ratings to predict the human score directly. COMET additionally conditions on the <em>source</em> text, not just the reference, and dominates modern MT evaluation.</p>
+    <div class="f">BLEURT: BERT pretrained on synthetic perturbations, then fine-tuned on WMT
+        human ratings → regression head predicting human score.
+
+COMET:  encodes (source, hypothesis, reference) → estimator head.
+        COMET-QE / CometKiwi drop the reference entirely
+        → "quality estimation", the first reference-free neural metric.
+
+MoverScore: Word Mover's Distance over contextual embeddings
+        (soft alignment rather than greedy 1-1 matching).</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Production MT, localisation QA. Historically important as the bridge to LLM-as-judge.</span></div>
+      <div><span class="k">when</span><span class="v">There's a well-defined task with enough human ratings to train on.</span></div>
+      <div><span class="k">why</span><span class="v">Reference-free quality estimation (COMET-QE) is conceptually the direct ancestor of everything in module 6 — a model trained to predict human judgement, then used in place of humans.</span></div>
+    </div>
+  </div>
+
+  <h3>Why this family stopped being enough</h3>
+  <ul>
+    <li><strong>The one-reference assumption dies.</strong> For "explain our refund policy" there are thousands of correct answers and no reference set can enumerate them.</li>
+    <li><strong>No factuality signal.</strong> Overlap and embedding similarity both score a confident fabrication highly if it's phrased like the reference.</li>
+    <li><strong>No instruction-following signal.</strong> Format, tone, refusal correctness, and constraint satisfaction are invisible.</li>
+    <li><strong>Task diversity.</strong> One system now does summarisation, extraction, code, and dialogue; a single reference-based number can't span that.</li>
+  </ul>
+  <p>What survived: exact match and F1-token for extractive QA, WER for speech, execution accuracy for code and SQL, and all of them as cheap <em>regression detectors</em> rather than quality scores.</p>
+
+  <div class="ask">
+    <p class="q">"When would you still use ROUGE or BLEU in 2026?"</p>
+    <p>Three honest cases. <strong>One:</strong> as a cheap, deterministic <em>tripwire</em> in CI — you don't believe the absolute value, but a 15-point drop after a prompt refactor tells you content vanished, at zero cost and zero latency. <strong>Two:</strong> constrained transformation tasks with real references — translation, format conversion, template filling. <strong>Three:</strong> as a cost-tiering layer, where the cheap metric screens thousands of rows and only ambiguous ones go to a judge or a human. The framing that earns the point: these are <em>screening</em> instruments now, not <em>quality</em> instruments.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 4 ============ -->
+<section class="module" id="m4" style="--era:var(--e4)">
+  <div class="mhead"><span class="era-yr">2018–2023</span><h2>Neural retrieval and embeddings</h2></div>
+  <p class="intro">Dense retrieval replaced term matching, which meant retrieval evaluation had to answer two new questions at once: <strong>is the ranking good</strong> (module 1's metrics, unchanged) and <strong>is the approximate index faithful to exact search</strong> (a systems question with its own metrics). Both show up in RAG interviews.</p>
+
+  <h3>The ranking metrics don't change — the benchmarks do</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Benchmark</th><th>Year</th><th>What it measures</th><th>Headline metric</th></tr></thead>
+    <tbody>
+      <tr><td>MS MARCO</td><td>2016</td><td>Web passage ranking at scale, sparse labels</td><td>MRR@10</td></tr>
+      <tr><td>BEIR</td><td>2021</td><td>Zero-shot generalisation across 18 heterogeneous IR datasets</td><td>nDCG@10, averaged</td></tr>
+      <tr><td>MTEB / MMTEB</td><td>2022 / 2025</td><td>Embeddings across retrieval, clustering, reranking, STS, classification</td><td>task-weighted mean</td></tr>
+      <tr><td>LoTTE, TREC-DL</td><td>2021–</td><td>Long-tail domain queries; deeply judged web ranking</td><td>Success@5, nDCG@10</td></tr>
+    </tbody>
+  </table></div>
+  <p>The lesson BEIR taught, and the one worth repeating in an interview: a dense retriever that beats BM25 in-domain frequently <em>loses</em> to BM25 out-of-domain. Zero-shot generalisation is the property you're buying, and it's not visible in in-domain metrics.</p>
+
+  <div class="metric">
+    <div class="name">ANN recall — the index-fidelity metric</div>
+    <p>Distinct from retrieval recall against human labels. This asks: does my approximate index return the same neighbours brute-force search would?</p>
+    <div class="f"><b>Recall@k (ANN)</b> = | ANN_top_k ∩ Exact_top_k | / k
+
+Report as a curve against throughput: <b>recall vs QPS</b> at fixed k.
+Tuning knobs: HNSW (M, efConstruction, efSearch) · IVF (nlist, nprobe)
+             PQ / SQ / binary quantisation · Matryoshka truncation dim</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Vector DB selection and capacity planning — FAISS, HNSW, Vespa, Databricks Vector Search, pgvector, Qdrant.</span></div>
+      <div><span class="k">when</span><span class="v">Before blaming the embedding model. If ANN recall is 0.85, you are silently losing 15% of your true neighbours and no reranker can recover them.</span></div>
+      <div><span class="k">why</span><span class="v">It cleanly separates <em>model quality</em> from <em>infrastructure quality</em>. Interviewers love this distinction because most candidates conflate them.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Hybrid search and Reciprocal Rank Fusion</div>
+    <p>Combining lexical (BM25) and dense results without needing comparable score scales — fuse on rank, not score.</p>
+    <div class="f"><b>RRF</b>(d) = Σ<sub>r∈rankers</sub> 1 / (k + rank<sub>r</sub>(d))       <span class="c">k = 60 by convention</span>
+
+Evaluate by: nDCG@10 of BM25 alone, dense alone, RRF, and
+             RRF + cross-encoder rerank — four rows, one table.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Nearly every production RAG retriever worth the name.</span></div>
+      <div><span class="k">when</span><span class="v">Your corpus has exact identifiers — SKUs, error codes, drug names, contract clause numbers — that dense embeddings smear.</span></div>
+      <div><span class="k">why</span><span class="v">RRF needs no score normalisation and no training, so it's a strong baseline that's very hard to beat with tuned weighted-score fusion.</span></div>
+    </div>
+  </div>
+
+  <h3>Chunking and context: the evaluation nobody runs</h3>
+  <p>Chunk strategy is usually chosen by vibes and never measured. Measurable proxies:</p>
+  <ul>
+    <li><strong>Answer-containment rate</strong> — fraction of golden questions whose supporting fact survives intact in at least one chunk. Compute this <em>before</em> you touch the retriever; it is a hard ceiling on recall.</li>
+    <li><strong>Chunk attribution</strong> — for each golden answer, which chunk IDs are needed. Gives you gold labels for Context Recall in module 5.</li>
+    <li><strong>Needle-in-a-haystack (NIAH)</strong> — plant a fact at varying depths in varying context lengths, measure retrieval accuracy as a heatmap. <strong>RULER</strong> (2024) generalises this to multi-needle, tracing and aggregation tasks, and showed most "128k context" models degrade far below their advertised length.</li>
+    <li><strong>Redundancy rate</strong> — mean pairwise similarity within the retrieved top-k. High redundancy means your k slots carry fewer than k facts. This is the concrete answer to "nDCG is high but the answer is wrong."</li>
+  </ul>
+
+  <div class="metric">
+    <div class="name">Reranker evaluation</div>
+    <div class="f">Report the lift, not the absolute:  Δ nDCG@10 (rerank − first stage)
+Always alongside:  p50 / p95 added latency, and $ per 1k queries.
+
+Typical shape: bi-encoder recall@50 → cross-encoder rerank → top-5 to LLM.
+The cross-encoder sees (query, doc) jointly so it's far more accurate
+and far more expensive — O(n) forward passes per query.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Between vector search and the generator in almost every serious RAG stack.</span></div>
+      <div><span class="k">when</span><span class="v">Recall@50 is high but Recall@5 is not — that gap is precisely what a reranker fixes.</span></div>
+      <div><span class="k">why</span><span class="v">Reporting reranker quality without its latency cost is the classic junior mistake. The metric is a Pareto point, not a scalar.</span></div>
+    </div>
+  </div>
+
+  <div class="ask">
+    <p class="q">"How do you evaluate an embedding model for our domain?"</p>
+    <p>Don't quote the MTEB leaderboard — that's the tell of someone who hasn't done it. <strong>Build a domain golden set</strong> of 200–500 (query, relevant chunk) pairs mined from real user questions and SME review. Then compare candidates on Recall@k and nDCG@10 <em>on that set</em>, against a BM25 baseline. Add the operational axes that decide the choice in practice: embedding dimension and therefore index cost, max sequence length versus your chunk size, multilingual coverage, inference latency, whether it's an API or self-hosted, and the migration cost of re-embedding the whole corpus when you switch. Finish with the ceiling check: measure answer-containment after chunking first, because a better embedding model can't retrieve a fact your chunker split in half.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 5 ============ -->
+<section class="module" id="m5" style="--era:var(--e5)">
+  <div class="mhead"><span class="era-yr">2023–2025</span><h2>RAG evaluation</h2></div>
+  <p class="intro">RAG's central insight for evaluation is <strong>decomposition</strong>. A wrong answer has three possible causes — the retriever missed, the generator ignored what it was given, or the generator invented something — and one end-to-end score can't tell them apart. Every RAG metric suite is a way of separating those three.</p>
+
+  <h3>The RAG triad <span class="dim" style="font-weight:400;font-size:1rem">(TruLens framing, 2023)</span></h3>
+  <div class="f">        query ──────────────► context ──────────────► answer
+          │  Context Relevance    │  Groundedness        │
+          │  (retriever's fault)  │  (generator invents) │
+          └──────────────── Answer Relevance ────────────┘
+                     (did it address the question at all)
+
+All three pass → the answer is very likely correct.
+Any one fails → you know which component to fix.</div>
+
+  <div class="metric">
+    <div class="name">Context Precision · Context Recall <span class="born">RAGAS, 2023</span></div>
+    <p>Retrieval quality expressed in RAG terms. Context Precision asks whether the useful chunks are ranked at the top; Context Recall asks whether the ground-truth answer is fully supported by what was retrieved.</p>
+    <div class="f"><b>Context Precision@K</b> = Σ<sub>k=1..K</sub> ( P@k · v<sub>k</sub> ) / (total relevant items in top K)
+
+  where P@k = TP@k / (TP@k + FP@k),  v<sub>k</sub> ∈ {0,1} relevance of chunk k
+  Relevance judged by an LLM against the ground-truth answer
+  (reference-based) or the question (reference-free).
+
+<b>Context Recall</b> =  |GT claims attributable to retrieved context|
+                   ────────────────────────────────────────────
+                          |total claims in ground truth|
+
+<b>Context Entity Recall</b> = |entities in context ∩ entities in GT| / |entities in GT|
+  — better for fact-dense domains (dates, drug names, contract parties).</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Every RAG system, run on a golden set of (question, ground-truth answer) pairs.</span></div>
+      <div><span class="k">when</span><span class="v">Context Recall is your first diagnostic — if it's low, stop tuning prompts and go fix chunking or retrieval.</span></div>
+      <div><span class="k">why</span><span class="v">It's classic P/R (module 1) with the labels generated by an LLM instead of a human annotator, which is what makes it affordable at scale.</span></div>
+    </div>
+    <div class="trap"><p>These are LLM-judged, so they inherit judge noise and cost. Validate them on a human-labelled subset before you use them as a release gate. Context Recall also needs ground-truth answers — it is <em>not</em> reference-free.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Faithfulness / Groundedness</div>
+    <p>The hallucination metric. Decompose the answer into atomic claims, then check each one against the retrieved context.</p>
+    <div class="f"><b>Faithfulness</b> = | claims in answer supported by context |
+                ─────────────────────────────────────────
+                     | total claims in answer |
+
+Implementation: (1) LLM extracts atomic statements from the answer
+                (2) LLM (or an NLI model) verdicts each: entailed / not entailed
+                (3) ratio
+
+NLI variant — cheaper and more reproducible:
+  score = mean over claims of P(entailment | premise=context, hypothesis=claim)
+  using a DeBERTa/RoBERTa NLI cross-encoder rather than a generative model.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Any regulated or high-stakes domain — healthcare, finance, legal, pharma commercial. This is usually the metric a compliance function actually cares about.</span></div>
+      <div><span class="k">when</span><span class="v">Offline as a release gate <em>and</em> online as a guardrail on a sampled fraction of traffic.</span></div>
+      <div><span class="k">why</span><span class="v">It's the only metric that needs no ground-truth answer — the retrieved context <em>is</em> the reference. That makes it deployable on live traffic where labels don't exist.</span></div>
+    </div>
+    <div class="trap"><p>Faithfulness measures grounding, not truth. A perfectly faithful answer to a wrong document is still wrong. And a correct answer drawing on the model's parametric knowledge scores as unfaithful. Pair it with Answer Correctness on your golden set.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Answer Relevancy</div>
+    <p>Does the answer actually address the question — penalising evasion, padding and partial answers. RAGAS computes it by reverse-engineering questions from the answer and measuring their similarity to the real one.</p>
+    <div class="f">Generate n artificial questions q<sub>1..n</sub> that the answer would answer.
+
+<b>Answer Relevancy</b> = (1/n) · Σ<sub>i=1..n</sub> cos( E(q<sub>i</sub>), E(q<sub>original</sub>) )
+
+Low score ⇒ the answer drifted, hedged, or answered a different question.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Chat assistants and search-answer surfaces where evasiveness is a common failure.</span></div>
+      <div><span class="k">when</span><span class="v">Reference-free, so it works on production traffic.</span></div>
+      <div><span class="k">why</span><span class="v">Catches the "technically grounded, practically useless" answer that faithfulness scores 1.0.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Answer Correctness · Exact Match · Token F1</div>
+    <div class="f"><b>EM</b> = 1 if normalised(pred) == normalised(gold) else 0    <span class="c">SQuAD-style</span>
+<b>Token F1</b> = harmonic mean of token precision and recall vs gold span
+
+<b>RAGAS Answer Correctness</b> = w₁ · F1(factual claims vs GT claims)
+                            + w₂ · semantic_similarity(answer, GT)
+  factual F1 built from TP/FP/FN over claims:
+     TP = claims in both · FP = in answer only · FN = in GT only</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Golden-set regression testing. EM/F1 for extractive QA; claim-based correctness for generative answers.</span></div>
+      <div><span class="k">when</span><span class="v">You have ground-truth answers — i.e. offline, in CI, on a curated set.</span></div>
+      <div><span class="k">why</span><span class="v">This is the number you show a stakeholder. The triad tells you <em>why</em> it moved.</span></div>
+    </div>
+  </div>
+
+  <h3>Hallucination detection beyond faithfulness</h3>
+  <div class="f"><b>SelfCheckGPT</b> (2023) — reference-free consistency:
+  sample n responses at temperature &gt; 0, measure agreement between them.
+  Fabrications are unstable across samples; grounded facts are stable.
+  score = 1 − (1/n) Σ<sub>i</sub> consistency(main_response, sample<sub>i</sub>)
+  Consistency via NLI, QA-based checking, or n-gram overlap.
+
+<b>FActScore</b> (2023) — precision over atomic facts:
+  decompose into atomic facts, verify each against a knowledge source,
+  report the % supported. Length-adjusted so verbosity isn't rewarded.
+
+<b>AIS / attribution</b> (Rashkin et al.) — "Attributable to Identified Sources":
+  binary human/LLM judgement that a statement is fully supported by its cited source.
+  Citation precision = correct citations / citations made
+  Citation recall    = statements needing a citation that got one</div>
+
+  <h3>Benchmarks worth being able to name</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Benchmark</th><th>Year</th><th>Tests</th></tr></thead>
+    <tbody>
+      <tr><td>Natural Questions</td><td>2019</td><td>Open-domain QA over Wikipedia; the classic RAG baseline</td></tr>
+      <tr><td>HotpotQA</td><td>2018</td><td>Multi-hop reasoning with supporting-fact supervision</td></tr>
+      <tr><td>RGB</td><td>2023</td><td>Noise robustness, negative rejection, information integration, counterfactual robustness</td></tr>
+      <tr><td>CRAG</td><td>2024</td><td>KDD Cup comprehensive RAG: web + mock KG, five domains, dynamic facts, scores hallucination negatively</td></tr>
+      <tr><td>MultiHop-RAG</td><td>2024</td><td>Queries requiring evidence from several retrieved documents</td></tr>
+      <tr><td>FRAMES</td><td>2024</td><td>Factuality + retrieval + reasoning jointly, multi-constraint questions</td></tr>
+      <tr><td>RULER / NIAH</td><td>2024</td><td>Effective context length vs advertised context length</td></tr>
+      <tr><td>LongBench</td><td>2023</td><td>Long-context understanding across bilingual tasks</td></tr>
+    </tbody>
+  </table></div>
+  <p>CRAG's scoring is the one to remember in interviews: correct answers score +1, "I don't know" scores 0, and hallucinations score <strong>−1</strong>. That asymmetry encodes the real business preference — abstention is far better than confident fiction — and you should replicate it in your own scoring rather than treating all errors as equal.</p>
+
+  <h3>The metrics people forget to define</h3>
+  <ul>
+    <li><strong>Abstention correctness</strong> — of the questions that are genuinely unanswerable from the corpus, what fraction did the system decline? And of the answerable ones, how often did it wrongly decline? These are just recall and false-refusal rate on a labelled unanswerable slice.</li>
+    <li><strong>Noise robustness</strong> — inject k irrelevant chunks into the context and measure the drop in answer correctness. Directly quantifies how much precision you can afford to trade for recall.</li>
+    <li><strong>Counterfactual robustness</strong> — plant a contradictory or outdated document and see whether the model notices the conflict or picks arbitrarily.</li>
+    <li><strong>Freshness</strong> — for time-sensitive corpora, the share of answers reflecting the current version of a document rather than a superseded one.</li>
+    <li><strong>Cost and latency per answered question</strong> — always. p50 and p95, plus embedding + retrieval + rerank + generation + judging costs broken out.</li>
+  </ul>
+
+  <p class="dim"><strong>Tooling:</strong> RAGAS (the metric definitions above), TruLens (the triad), DeepEval (pytest-style assertions), Arize Phoenix and LangSmith (tracing + datasets + online eval), MLflow LLM Evaluate, Databricks Agent Evaluation with its built-in judges and review app for SME labelling, promptfoo and Braintrust (CI-oriented), Giskard and Ares for scanning.</p>
+
+  <div class="ask">
+    <p class="q">"Walk me through evaluating a RAG system end to end."</p>
+    <p>Structure the answer in four layers and say the word "decompose" early. <strong>Data layer:</strong> chunk-level answer-containment rate, because it caps everything downstream. <strong>Retrieval layer:</strong> Recall@k and nDCG@k against a human-labelled golden set, ANN recall against brute force, redundancy rate in the top-k. <strong>Generation layer:</strong> faithfulness/groundedness, answer relevancy, citation precision and recall, refusal correctness on a deliberately unanswerable slice. <strong>System layer:</strong> answer correctness on the golden set, noise robustness, p95 latency, cost per query, and then online — deflection rate, thumbs-down rate, human escalation rate. Close with the governance point: the golden set is versioned, every judge is validated against human labels with κ reported, and the whole thing runs in CI on every prompt or index change.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 6 ============ -->
+<section class="module" id="m6" style="--era:var(--e6)">
+  <div class="mhead"><span class="era-yr">2023–now</span><h2>LLM-as-a-judge</h2></div>
+  <p class="intro">The unlock that made everything after it possible: use a strong model to approximate a human rater. Zheng et al.'s MT-Bench paper (2023) showed strong judges agree with human preferences at roughly the rate humans agree with <em>each other</em> — about 80%. That's the whole justification, and it comes with a stack of well-catalogued biases you must be able to name.</p>
+
+  <h3>The three judging modes</h3>
+  <div class="f"><b>Pointwise</b>   — score one output on a rubric (binary, or 1–5).
+             Interpretable, absolute, comparable over time.
+             Highest variance; scores cluster at 4 and drift between model versions.
+
+<b>Pairwise</b>    — "which is better, A or B?" (optionally with ties).
+             Much lower variance, far more reliable.
+             Gives you no absolute level, and needs O(n²) comparisons
+             unless you fit Bradley–Terry / Elo.
+
+<b>Reference-guided</b> — judge sees a gold answer alongside the candidate.
+             Highest agreement with humans; needs ground truth.</div>
+
+  <div class="metric">
+    <div class="name">G-Eval <span class="born">Liu et al., 2023</span></div>
+    <p>Chain-of-thought judging with a probability-weighted score, which removes the coarseness of integer outputs.</p>
+    <div class="f">1. Give the judge the criterion (e.g. "coherence").
+2. Ask it to generate the evaluation steps itself (auto-CoT).
+3. Score with form-filling, then weight by the token probabilities:
+
+<b>score</b> = Σ<sub>i=1..5</sub> p(s<sub>i</sub>) · s<sub>i</sub>        <span class="c">s ∈ {1..5}, p from logprobs</span>
+
+Without weighting, judges emit "4" for almost everything and the
+metric has no resolution. With it you get a continuous score.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Summarisation, writing quality, tone, coherence — subjective axes with no reference.</span></div>
+      <div><span class="k">when</span><span class="v">You need a continuous score and your provider exposes logprobs.</span></div>
+      <div><span class="k">why</span><span class="v">Reported human correlation (Spearman ~0.51 on SummEval coherence vs ~0.3 for prior metrics) was the result that made judge-based eval mainstream.</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Elo and Bradley–Terry <span class="born">Chatbot Arena, 2023</span></div>
+    <p>Turn a sparse set of pairwise comparisons into a global ranking with confidence intervals.</p>
+    <div class="f"><b>Bradley–Terry</b>:  P(A beats B) = 1 / ( 1 + e^(β<sub>B</sub> − β<sub>A</sub>) )
+
+<b>Elo scale</b>:      P(A beats B) = 1 / ( 1 + 10^((R<sub>B</sub> − R<sub>A</sub>)/400) )
+  400 points apart ⇒ ~91% win probability
+  Online update:  R' = R + K·(S − E),  K ≈ 4–32
+
+Fit BT by maximum likelihood over all recorded comparisons — it is
+order-independent, unlike sequential Elo, so it's what arenas actually use.
+Get CIs by bootstrapping over the comparison set.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Model selection, prompt-variant tournaments, internal "which config wins" leaderboards, RLHF preference data.</span></div>
+      <div><span class="k">when</span><span class="v">You have many candidates and only relative judgements.</span></div>
+      <div><span class="k">why</span><span class="v">Ratings are transitive and come with uncertainty, so you can say "A beats B, but the interval overlaps — don't ship yet."</span></div>
+    </div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Win rate and length-controlled win rate</div>
+    <div class="f"><b>Win rate</b> = wins / (wins + losses)      <span class="c">or +½ per tie</span>
+
+<b>LC win rate</b> (AlpacaEval 2.0, 2024): fit a GLM that separates the
+effect of length from the effect of quality, then report the win rate
+with length held fixed. Raised Spearman correlation with Chatbot Arena
+to ~0.98 and made the metric much harder to game by padding.
+
+CI on a win rate over n comparisons:  p̂ ± 1.96·√( p̂(1−p̂)/n )
+n = 100 → ±10pp · n = 400 → ±5pp · n = 1600 → ±2.5pp</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">A/B-ing prompts, models, RAG configurations.</span></div>
+      <div><span class="k">when</span><span class="v">Always compute the interval. A 54% win rate over 100 comparisons is not a result.</span></div>
+      <div><span class="k">why</span><span class="v">Length bias is the single most exploitable judge weakness, and LC win rate is the accepted correction.</span></div>
+    </div>
+  </div>
+
+  <h3>Judge biases — memorise this list</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Bias</th><th>What happens</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td>position</td><td>The first (or second) option wins more often regardless of content</td><td>Evaluate both orders, average; count disagreement as a tie</td></tr>
+      <tr><td>verbosity</td><td>Longer answers score higher at equal quality</td><td>Length-controlled win rate; cap length; state conciseness in the rubric</td></tr>
+      <tr><td>self-preference</td><td>A judge prefers text from its own family</td><td>Use a different family as judge; use a jury of 3 from different families</td></tr>
+      <tr><td>sycophancy</td><td>Judge agrees with assertions in the prompt or with a stated "correct" answer</td><td>Blind the judge to which system produced what; avoid leading phrasing</td></tr>
+      <tr><td>formatting</td><td>Markdown, bullets, headers score higher</td><td>Normalise formatting before judging, or score format separately</td></tr>
+      <tr><td>anchoring / scale drift</td><td>1–5 scores cluster on 4; meaning shifts across model versions</td><td>Binary assertions; few-shot anchors; pin judge model + version</td></tr>
+      <tr><td>nesting / attention</td><td>Middle items in long lists are under-weighted</td><td>Judge one criterion at a time on short inputs</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Validating the judge — the part that separates seniors from juniors</h3>
+  <p>A judge is a classifier. Treat it as one and evaluate it with module 2's toolkit.</p>
+  <div class="f">1. Sample 100–200 outputs, stratified to include known failure modes.
+2. Have 2–3 humans label them against the same rubric the judge uses.
+3. Measure human–human agreement first (Cohen's/Fleiss' κ).
+   If κ &lt; 0.6, the rubric is broken — fix it before blaming the judge.
+4. Measure judge–human agreement: accuracy, κ, and — because failure
+   classes are imbalanced — precision/recall on the "fail" class.
+5. Set the operating point deliberately. A groundedness judge used as a
+   production guardrail needs high recall on hallucinations; the same judge
+   used as a release gate needs high precision so it doesn't block releases.
+6. Re-validate whenever you change judge model, judge prompt, or domain.
+
+Target: judge–human κ ≥ human–human κ − 0.1.  Report both numbers.</div>
+
+  <h3>Practical rules for writing judges</h3>
+  <ul>
+    <li><strong>Binary beats Likert.</strong> "Does every factual claim appear in the context? yes/no" is reproducible; "rate faithfulness 1–5" is not.</li>
+    <li><strong>One criterion per call.</strong> Bundled rubrics produce a single blurred number and the judge silently over-weights one axis.</li>
+    <li><strong>Give the failure definition, not the success definition.</strong> Judges are much better at spotting a specified defect than at rating abstract quality.</li>
+    <li><strong>Force a rationale before the verdict.</strong> Verdict-then-rationale produces post-hoc justification and measurably worse agreement.</li>
+    <li><strong>Pin the model version</strong> and store the judge prompt in version control. A silent provider upgrade will move every historical number.</li>
+    <li><strong>Consider a jury</strong> (PoLL, 2024): three cheaper heterogeneous judges voting often beat one frontier judge, at lower cost and with less self-preference.</li>
+    <li><strong>Budget the cost.</strong> Judging is inference. On a 1,000-row golden set with 4 criteria and order-swapping, that's 8,000 calls per eval run.</li>
+  </ul>
+
+  <div class="ask">
+    <p class="q">"How do you know your LLM judge is right?"</p>
+    <p>"I validate it like any other classifier." Then give the loop: build a human-labelled meta-eval set stratified over known failure modes; measure human–human agreement first to establish the ceiling; measure judge–human agreement with κ and with precision/recall on the failure class; choose the operating threshold from the cost of the two error types in <em>this</em> use case; and re-run that validation whenever the judge model, prompt or domain changes. Add the honest limit: the judge is a proxy with a known error rate, so I report it as a distribution with a confidence interval and I never gate a release on a judge score alone without a human spot-check of the boundary cases.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 7 ============ -->
+<section class="module" id="m7" style="--era:var(--e7)">
+  <div class="mhead"><span class="era-yr">2023–2026</span><h2>Agents and tool calling</h2></div>
+  <p class="intro">The object being evaluated changes shape. A RAG system produces <strong>one output</strong>; an agent produces a <strong>trajectory</strong> — a sequence of decisions, tool calls, observations and state changes, of variable length, with many valid paths to the same goal. Evaluation splits into outcome (did it work) and process (did it work for the right reasons, at acceptable cost).</p>
+
+  <h3>Outcome metrics</h3>
+
+  <div class="metric">
+    <div class="name">Task success rate · pass@k · pass^k</div>
+    <p>Success rate is the headline. pass@k measures whether <em>any</em> of k attempts succeeds — useful when a human filters candidates. pass^k measures whether <em>all</em> k independent attempts succeed, which is the reliability number that matters for autonomous deployment.</p>
+    <div class="f"><b>Success rate</b> = successful tasks / total tasks
+  Success defined by: final-state check, execution test, exact match,
+  or rubric judgement — declare which.
+
+<b>pass@k</b> = E<sub>tasks</sub> [ 1 − C(n − c, k) / C(n, k) ]
+  n = samples generated, c = # correct among them.
+  Unbiased estimator (Codex paper, 2021). Optimistic: assumes you can
+  pick the winner — true with a test suite, false without one.
+
+<b>pass^k</b> = E [ C(c, k) / C(n, k) ]                <span class="c">τ-bench, 2024</span>
+  probability that k independent trials ALL succeed.
+  Collapses fast: 80% per-trial success ⇒ pass^5 ≈ 0.33.
+  This is the number to quote when someone asks "can we let it run unsupervised?"</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Coding agents (SWE-bench), customer-service agents (τ-bench), workflow automation, data-engineering agents.</span></div>
+      <div><span class="k">when</span><span class="v">pass@k when a human or a verifier picks from candidates; pass^k when the agent acts alone.</span></div>
+      <div><span class="k">why</span><span class="v">A single-run success rate massively overstates autonomous reliability. Showing you know the difference is a strong senior signal.</span></div>
+    </div>
+  </div>
+
+  <h3>Tool-calling metrics</h3>
+
+  <div class="metric">
+    <div class="name">Tool selection accuracy · argument accuracy · hallucinated-tool rate</div>
+    <div class="f">Per call:
+  <b>Tool selection accuracy</b> = correct tool chosen / calls made
+  <b>Tool precision</b> = correct calls / total calls made        <span class="c">penalises spurious calls</span>
+  <b>Tool recall</b>    = correct calls / calls that should have been made
+  <b>Tool F1</b>        = harmonic mean                            <span class="c">module 1, unchanged</span>
+
+  <b>Schema validity rate</b>   = calls parsing against the JSON schema / calls
+  <b>Argument exact match</b>   = all params correct (name, type, value)
+  <b>Argument-level F1</b>      = per-parameter, for partial credit
+  <b>Hallucinated tool rate</b> = calls to tools not in the provided schema / calls
+  <b>Irrelevance detection</b>  = correctly declines to call any tool when none applies
+
+Two grading modes (BFCL's framing):
+  <b>AST match</b>   — parse the call, compare structurally to the gold call.
+                Cheap, deterministic, but rejects valid alternatives.
+  <b>Executable</b> — actually run the call against a live/mock API and
+                compare the result. Slower, but accepts any path that works.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Function-calling models, MCP servers, plugin routers, any agent with more than ~5 tools.</span></div>
+      <div><span class="k">when</span><span class="v">As a fast unit-level suite in CI — it runs in seconds and catches most regressions from prompt or schema changes.</span></div>
+      <div><span class="k">why</span><span class="v">It localises failure precisely: wrong tool = routing/description problem; wrong arguments = schema or extraction problem; hallucinated tool = prompt or model problem. Each has a different fix.</span></div>
+    </div>
+    <div class="trap"><p>Tool-selection accuracy degrades sharply with the number of tools in context, and the fix is usually better <em>tool descriptions</em> or retrieval over tools — which makes this an IR problem again. Also: irrelevance detection is the most commonly skipped case and the most common production failure. Always include "no tool needed" examples in the suite.</p></div>
+  </div>
+
+  <h3>Trajectory / process metrics</h3>
+
+  <div class="metric">
+    <div class="name">Trajectory matching family <span class="born">Vertex AI / Google ADK vocabulary, 2024</span></div>
+    <div class="f">Given predicted trajectory P and reference trajectory R (lists of tool calls):
+
+  <b>exact match</b>        P == R, same calls, same order          <span class="c">strictest</span>
+  <b>in-order match</b>     R is a subsequence of P                 <span class="c">extra steps allowed</span>
+  <b>any-order match</b>    all of R appears in P, order-free
+  <b>precision</b>          |P ∩ R| / |P|                           <span class="c">wasted actions</span>
+  <b>recall</b>             |P ∩ R| / |R|                           <span class="c">missed required actions</span>
+  <b>single-tool use</b>    did a specific required tool get called at all</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Workflows with a known correct procedure — SOP execution, compliance-bound processes, ETL orchestration, clinical or regulatory workflows.</span></div>
+      <div><span class="k">when</span><span class="v">A reference trajectory exists and the <em>path</em> is auditable, not just the result.</span></div>
+      <div><span class="k">why</span><span class="v">In regulated settings the process is the deliverable. "Right answer, unauthorised data access on the way" is a failure.</span></div>
+    </div>
+    <div class="trap"><p>Most tasks have many valid paths, so exact match under-scores good agents. Use precision/recall over required steps rather than exact match, unless the procedure is genuinely fixed.</p></div>
+  </div>
+
+  <div class="metric">
+    <div class="name">Efficiency, robustness and cost</div>
+    <div class="f"><b>Step efficiency</b>      = optimal steps / actual steps        <span class="c">∈ (0,1]</span>
+<b>Redundant call rate</b>  = repeated identical calls / total calls
+<b>Loop rate</b>            = runs hitting the step cap without terminating
+<b>Error recovery rate</b>  = runs that hit a tool error and still succeeded
+                       / runs that hit a tool error
+<b>Recovery cost</b>        = extra steps consumed after the first error
+<b>Termination accuracy</b> = stops when done, doesn't stop early
+
+<b>Cost per resolved task</b> = total $ / successful tasks
+  — not cost per run. A cheap agent that fails twice as often is not cheap.
+<b>Tokens per task</b>, p50 / p95 <b>wall-clock to resolution</b>,
+<b>context growth</b> (tokens at step n) — the practical scaling limit.</div>
+    <div class="www">
+      <div><span class="k">where</span><span class="v">Every production agent. These are the metrics your platform bill and your on-call rota respond to.</span></div>
+      <div><span class="k">when</span><span class="v">From the first pilot. Quality-only dashboards get agents killed at budget review.</span></div>
+      <div><span class="k">why</span><span class="v">Error recovery rate in particular predicts real-world performance better than success rate on clean inputs — production tools fail, time out and return junk constantly.</span></div>
+    </div>
+  </div>
+
+  <h3>Multi-turn and policy compliance</h3>
+  <p>Single-turn tool eval misses most of what breaks in production. The multi-turn additions:</p>
+  <ul>
+    <li><strong>Instruction retention</strong> — a constraint given at turn 2 still honoured at turn 12.</li>
+    <li><strong>State tracking</strong> — the agent's belief about the world matches the environment's actual state.</li>
+    <li><strong>Clarification behaviour</strong> — asks when the request is genuinely underspecified, doesn't ask when it isn't. Both directions are failures; measure both.</li>
+    <li><strong>Policy compliance</strong> — τ-bench's contribution: the agent has a domain policy document (refund rules, escalation rules) and success requires both the right end state <em>and</em> no policy violation on the way.</li>
+    <li><strong>User simulation</strong> — an LLM plays the user from a persona and goal. This is how you get multi-turn coverage at scale, and the simulator itself needs validating: does it produce realistic distributions of ambiguity, correction and frustration?</li>
+  </ul>
+
+  <h3>Benchmarks to be able to name and date</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Benchmark</th><th>Year</th><th>What it actually tests</th></tr></thead>
+    <tbody>
+      <tr><td>AgentBench</td><td>2023</td><td>LLM-as-agent across 8 environments (OS, DB, KG, games, web)</td></tr>
+      <tr><td>WebArena</td><td>2023</td><td>Realistic self-hosted web apps; functional correctness of end state</td></tr>
+      <tr><td>GAIA</td><td>2023</td><td>Real-world assistant questions: multi-step, multi-modal, tool-requiring; easy for humans, hard for models</td></tr>
+      <tr><td>SWE-bench / Verified</td><td>2023 / 2024</td><td>Resolve real GitHub issues; graded by the repo's own test suite. Verified = 500 human-validated instances</td></tr>
+      <tr><td>BFCL v1→v4</td><td>2024–25</td><td>Function calling: simple, parallel, multiple, multi-turn, and agentic (search + memory) categories; AST and executable grading</td></tr>
+      <tr><td>τ-bench / τ²-bench</td><td>2024 / 2025</td><td>Multi-turn agent–user–policy interaction with a simulated user; introduced pass^k</td></tr>
+      <tr><td>ToolBench / API-Bank</td><td>2023</td><td>Large real API collections, tool-retrieval plus invocation</td></tr>
+      <tr><td>OSWorld · WebVoyager</td><td>2024</td><td>Computer use: real desktop and live-web task completion</td></tr>
+      <tr><td>MLE-bench · Terminal-Bench</td><td>2024–25</td><td>ML engineering tasks; long-horizon terminal work</td></tr>
+      <tr><td>AgentDojo</td><td>2024</td><td>Prompt-injection resistance for tool-using agents: utility <em>and</em> attack success rate together</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Grading trajectories with a judge</h3>
+  <div class="f"><b>ORM</b> (outcome reward model)  — grades only the final result.
+      Cheap, unambiguous, but gives no credit assignment and rewards
+      lucky paths.
+
+<b>PRM</b> (process reward model)  — grades each step.
+      Enables credit assignment, step-level debugging, and search
+      (best-of-n over steps). Expensive to label.
+
+Practical hybrid used in industry:
+  deterministic checks for what can be checked (final DB state, tests pass,
+  schema valid, no forbidden tool touched)
+  + rubric LLM judge over the trace for what can't
+    ("did it verify before writing?", "did it escalate per policy?")
+  + human review of a sampled 5–10% to keep the judge honest.</div>
+
+  <div class="ask">
+    <p class="q">"How do you evaluate an agent when there's no single right answer and no reference trajectory?"</p>
+    <p>Say that you evaluate the <strong>end state</strong> and the <strong>constraints</strong>, not the path. Define success as a programmatic assertion over the world after the run — the record exists with these fields, the tests pass, the file matches this schema. Then layer constraint checks that are also deterministic: no forbidden tool was called, no PII left the boundary, the step and cost budget held, it terminated. Then use a rubric judge over the trace for the qualitative requirements you can't assert — did it verify before mutating, did it escalate when policy required. Then report reliability as pass^k rather than a single-run rate, and stratify results by an error taxonomy built from reading real failures, so the number tells you what to fix. Finish on cost per resolved task, because that's what determines whether it ships.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 8 ============ -->
+<section class="module" id="m8" style="--era:var(--e8)">
+  <div class="mhead"><span class="era-yr">2025–2026</span><h2>Skills, multi-agent systems, and production evaluation</h2></div>
+  <p class="intro">The newest layer, and the one with the least settled vocabulary — which makes it the best place to sound current. Agents stopped being monoliths: capability now arrives as loadable <strong>skills</strong>, work is split across <strong>multiple agents</strong>, and the deciding metrics have moved from offline benchmarks to <strong>production telemetry</strong>.</p>
+
+  <h3>Evaluating skills</h3>
+  <p>A skill is a packaged unit of procedural capability — instructions, scripts and resources that an agent loads on demand when a task matches its description. Because loading is triggered by matching a request against skill descriptions, <strong>skill selection is a retrieval problem</strong> and module 1's metrics apply directly.</p>
+  <div class="f">— Discovery / triggering (this is IR) —
+  <b>Trigger recall</b>     = tasks where the right skill loaded / tasks needing it
+  <b>Trigger precision</b>  = correct loads / total loads
+  <b>False activation rate</b> = skill loaded when not needed / total tasks
+  <b>Selection accuracy @ N skills</b> — measure the curve as the library grows;
+    this is where skill libraries actually fail
+
+— Adherence —
+  <b>Procedure adherence</b> = required steps executed / required steps
+    (rubric judge over the trace against the skill's own written procedure)
+  <b>Constraint violations</b> per run — the "never do X" clauses
+
+— Value —
+  <b>Task lift</b> = success rate with skill − success rate without
+    Paired on identical tasks. If lift ≈ 0, the skill is context cost with no return.
+  <b>Context overhead</b> = tokens loaded per invocation, and $ per task delta
+  <b>Regression suite</b> — every skill owns a small golden set; a skill edit
+    reruns it plus the cross-skill suite that checks it didn't steal triggers
+    from a neighbouring skill.</div>
+  <p>The failure mode specific to skill libraries: <strong>trigger interference</strong>. Adding skill 12 degrades skill 7 because their descriptions overlap. That's why the cross-skill regression suite matters more than any individual skill's own tests, and why description-writing is an eval-driven activity.</p>
+
+  <h3>Multi-agent systems</h3>
+  <div class="f"><b>Routing / delegation accuracy</b> = tasks sent to the right sub-agent
+<b>Handoff fidelity</b>   — is the context passed complete and uncorrupted?
+                     Measure downstream task success conditioned on handoff.
+<b>Blame assignment</b>   — per-agent attribution of end-to-end failures.
+                     Requires span-level tracing; without it you cannot debug.
+<b>Coordination overhead</b> = total tokens (multi-agent) / tokens (single agent)
+                     for the same task. Often 3–15×. Justify it with a lift number.
+<b>Deadlock / livelock rate</b>, <b>infinite-handoff rate</b>
+<b>Consistency</b>        — do two agents reach contradictory conclusions
+                     from the same evidence?
+
+<b>MAST</b> (2025) — a failure taxonomy for multi-agent systems, grouping errors into
+specification issues, inter-agent misalignment, and task verification failures.
+Use it as the label set for your error taxonomy rather than inventing one.</div>
+  <p>The honest senior position: multi-agent adds cost, latency and failure surface, so the eval must show a <em>lift over a strong single-agent baseline on the same tasks</em>. Most internal systems have never run that comparison. Saying you would is a differentiator.</p>
+
+  <h3>Context engineering as an eval target</h3>
+  <ul>
+    <li><strong>Effective context length</strong> — measured with RULER-style probes, not the vendor's spec sheet.</li>
+    <li><strong>Compaction fidelity</strong> — after summarising a long history, what fraction of decision-relevant facts survive? Test by asking questions answerable only from the pre-compaction history.</li>
+    <li><strong>Memory read/write correctness</strong> — precision and recall of what got stored, and whether stale memories are retrieved over fresh ones. Plus staleness: how often does the agent act on a superseded fact?</li>
+    <li><strong>Position sensitivity</strong> — same information at the start, middle and end of context; the accuracy delta is your lost-in-the-middle penalty.</li>
+  </ul>
+
+  <h3>Online evaluation</h3>
+  <div class="f"><b>A/B test</b> — random assignment, one primary metric declared in advance,
+  guardrail metrics that can only stop a launch (latency, cost, error rate,
+  safety incidents). Power the test before running it:
+    n per arm ≈ 16 · σ² / Δ²      (rough, 80% power, α=0.05, two-sided)
+  Use CUPED or covariate adjustment to cut variance with pre-period data.
+
+<b>Interleaving</b> — for ranking changes: blend two rankers' results into one
+  list and attribute clicks. ~10–100× more sensitive than an A/B test,
+  so it needs far less traffic. Retrieval-only; can't evaluate a generator.
+
+<b>Shadow / canary</b> — run the new system on live traffic without serving it
+  (shadow) or serve to 1–5% (canary), compare distributions before full rollout.
+
+<b>Sequential testing</b> — always-valid p-values / mSPRT if you want to peek
+  continuously without inflating false positives.</div>
+
+  <h3>Production metrics that decide funding</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Metric</th><th>Definition</th><th>Reads as</th></tr></thead>
+    <tbody>
+      <tr><td>containment</td><td>sessions resolved with no human involvement</td><td>the automation rate the CFO sees</td></tr>
+      <tr><td>escalation rate</td><td>sessions handed to a human</td><td>inverse of containment; watch its trend by segment</td></tr>
+      <tr><td>acceptance rate</td><td>AI drafts accepted with no edit</td><td>quality, for draft-and-review workflows</td></tr>
+      <tr><td>edit distance</td><td>normalised distance from AI draft to shipped human version</td><td>quality on a continuous scale — the best proxy metric in copilot products</td></tr>
+      <tr><td>time to resolution</td><td>p50 / p95 end-to-end</td><td>the user-visible benefit</td></tr>
+      <tr><td>cost per resolved task</td><td>total inference + tooling $ / successes</td><td>unit economics</td></tr>
+      <tr><td>thumbs-down rate</td><td>explicit negative feedback per session</td><td>noisy, biased, but free and directionally useful</td></tr>
+      <tr><td>incident rate</td><td>safety / compliance events per 10k sessions</td><td>the number that stops the programme</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Safety, robustness and guardrail evaluation</h3>
+  <div class="f"><b>Attack success rate (ASR)</b> = successful attacks / attempts
+  Attack families: direct jailbreak, prompt injection (indirect, via retrieved
+  content or tool output), data exfiltration, tool misuse, privilege escalation.
+
+<b>Utility-under-attack</b> — AgentDojo's framing: report benign task success
+  AND attack success together. A guardrail that blocks every attack by
+  refusing everything has ASR 0 and utility 0.
+
+<b>Guardrail classifier eval</b> — it's a classifier (module 2):
+  recall on the harmful class (misses are incidents)
+  false positive rate (over-blocking silently destroys the product)
+  Report the ROC and pick the operating point from the cost asymmetry.
+
+<b>Over-refusal</b> — measured on a benign-but-sensitive-looking set;
+  the most under-measured failure in enterprise deployments.
+
+<b>Robustness</b> — paraphrase invariance, typo/noise tolerance,
+  order-of-options invariance in MCQ, prompt-format sensitivity.</div>
+
+  <h3>Benchmark hygiene: contamination and saturation</h3>
+  <ul>
+    <li><strong>Contamination.</strong> Public benchmarks leak into pretraining. Detect with canary strings, n-gram overlap against training corpora, or the ordering test — if a model scores much better on a benchmark's original ordering than a shuffled variant, it has memorised it.</li>
+    <li><strong>Saturation.</strong> Once the top of the leaderboard is within noise of the human ceiling, the benchmark no longer discriminates. This is why the field keeps building harder sets.</li>
+    <li><strong>Private held-out slices.</strong> Keep 20–30% of every golden set out of any prompt, any fine-tune and any shared doc. Rotate it.</li>
+    <li><strong>Construct validity.</strong> Ask whether the benchmark measures the capability you care about or a correlated artifact. Most published agent benchmarks correlate weakly with your enterprise workflow, which is the argument for building your own set.</li>
+  </ul>
+
+  <h3>Evals in CI</h3>
+  <div class="f">Treat evals as tests, with realistic tolerances:
+  · pin model + version; record temperature, seed, and prompt hash with every run
+  · temperature 0 is NOT deterministic (batching, GPU non-determinism, MoE routing)
+  · run N=3–5 and compare distributions, not single numbers
+  · gate on a confidence-interval-aware threshold, not on a point estimate
+  · tier the suite: fast deterministic assertions on every commit,
+    judge-based suite nightly, full human-in-the-loop review per release
+  · store every trace; a failing eval must link to the trace that failed
+  · version the golden set alongside the code that uses it
+
+Observability: OpenTelemetry GenAI semantic conventions are the emerging
+standard for spans/traces; Langfuse, Arize Phoenix, LangSmith, W&B Weave,
+Braintrust and MLflow all consume them.</div>
+
+  <div class="ask">
+    <p class="q">"We're deploying agents across 65 markets. How do you evaluate that at scale?"</p>
+    <p>Separate what generalises from what doesn't. <strong>Shared:</strong> the harness, the error taxonomy, the judge prompts, the safety and tool-correctness suites, the telemetry schema — build these once. <strong>Per-market:</strong> the golden set, because language, regulation, product catalogue and escalation policy all differ; and the thresholds, because acceptable refusal and escalation rates differ by regulatory regime. Then run a small stratified golden set per market (100–200 items, SME-authored) plus one large shared set, and monitor per-market online metrics with the same dashboard so you can see divergence early. The organisational point that lands well: the bottleneck is never the metric, it's SME labelling capacity, so you invest in a review app that makes labelling take a minute and you spend judges on scale while spending humans on validating the judges.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 9 ============ -->
+<section class="module" id="m9" style="--era:var(--e9)">
+  <div class="mhead"><span class="era-yr">cross-cutting</span><h2>Statistics and golden-set construction</h2></div>
+  <p class="intro">Two questions decide whether any number above means anything: <strong>how many examples do I need</strong>, and <strong>where did the examples come from</strong>. Most eval work in industry is wrong at the second one.</p>
+
+  <h3>How many examples?</h3>
+  <div class="f">For a success rate p̂ over n independent examples:
+  95% CI ≈ p̂ ± 1.96 · √( p̂(1−p̂)/n )
+
+  n = 30   → ±18pp   (a demo, not a measurement)
+  n = 100  → ±10pp
+  n = 400  → ±5pp
+  n = 1000 → ±3pp
+  n = 2500 → ±2pp
+  (worst case at p̂=0.5; tighter near 0 or 1. Use Wilson intervals at the extremes.)
+
+To detect a Δ between two systems, PAIR them on the same items and test
+only the disagreements — McNemar. This typically cuts required n by 4–10×
+because the item-difficulty variance cancels.
+
+Rule of thumb: 100 well-chosen, failure-mode-stratified examples beat
+1,000 randomly sampled easy ones. Sample for coverage of the taxonomy,
+then reweight to the production distribution when reporting.</div>
+
+  <h3>Building the golden set</h3>
+  <ol>
+    <li><strong>Start from real traffic.</strong> Pull 200 real sessions. If there's no traffic yet, have SMEs write the 50 questions they'd actually ask, then have a different SME answer them.</li>
+    <li><strong>Read them by hand.</strong> There is no substitute. Cluster the failures into 5–10 named modes. This taxonomy is the most valuable artifact you'll produce.</li>
+    <li><strong>Stratify.</strong> Sample deliberately across the taxonomy, plus deliberate slices: unanswerable questions, multi-hop questions, adversarial/injection attempts, ambiguous questions needing clarification, out-of-scope requests, and the highest-frequency head queries.</li>
+    <li><strong>Write ground truth carefully.</strong> For RAG, record both the answer and the chunk IDs that support it — that gives you Context Recall labels for free.</li>
+    <li><strong>Synthetic data with human filtering.</strong> LLM-generated question sets are fine for scale and terrible unaccompanied. Generate 10×, have SMEs keep the 1× that are realistic. Never let a synthetic set be the only set — it inherits the generator's blind spots.</li>
+    <li><strong>Version it.</strong> Golden sets change; scores across versions are not comparable. Tag every result with the set version.</li>
+    <li><strong>Hold out a private slice</strong> and keep it out of prompts, few-shot examples and fine-tunes.</li>
+  </ol>
+
+  <h3>Slice-based reporting</h3>
+  <p>An aggregate score hides everything that matters. Report per-slice — by query type, document source, language, market, user segment, question difficulty, and time period — and set the alert on the worst slice, not the mean. This is how Simpson's paradox gets caught before a stakeholder catches it for you.</p>
+
+  <div class="f">Minimum reporting standard for any eval result:
+  metric name and exact definition · dataset name and version · n
+  model + version + temperature · prompt hash · judge model + judge prompt hash
+  point estimate + 95% CI · per-slice breakdown · date of run</div>
+</section>
+
+<!-- ============ MODULE 10 ============ -->
+<section class="module" id="m10" style="--era:var(--e0)">
+  <div class="mhead"><span class="era-yr">drills</span><h2>Interview drills and lookup tables</h2></div>
+
+  <h3>System type → metric stack</h3>
+  <div class="tw"><table>
+    <thead><tr><th>System</th><th>Primary</th><th>Diagnostic</th><th>Guardrail</th></tr></thead>
+    <tbody>
+      <tr><td>search / retrieval</td><td>nDCG@10, Recall@k</td><td>MRR, ANN recall, redundancy rate</td><td>p95 latency, index freshness</td></tr>
+      <tr><td>classifier</td><td>PR-AUC or MCC</td><td>per-class P/R, calibration ECE</td><td>PSI drift, FPR by segment</td></tr>
+      <tr><td>forecasting</td><td>MASE or RMSE</td><td>pinball loss by quantile</td><td>rolling-origin backtest decay</td></tr>
+      <tr><td>summarisation</td><td>rubric judge score</td><td>faithfulness, ROUGE as tripwire</td><td>length, refusal rate</td></tr>
+      <tr><td>RAG QA</td><td>answer correctness</td><td>RAG triad + context recall</td><td>faithfulness on sampled traffic</td></tr>
+      <tr><td>tool-calling model</td><td>tool F1, argument EM</td><td>hallucinated-tool rate, irrelevance detection</td><td>schema validity rate</td></tr>
+      <tr><td>autonomous agent</td><td>task success, pass^k</td><td>trajectory P/R, error recovery, step efficiency</td><td>cost per resolved task, policy violations</td></tr>
+      <tr><td>skill library</td><td>task lift vs no-skill</td><td>trigger precision/recall, adherence</td><td>context overhead, cross-skill interference</td></tr>
+      <tr><td>multi-agent</td><td>end-to-end success</td><td>routing accuracy, blame assignment</td><td>coordination overhead ratio, loop rate</td></tr>
+      <tr><td>copilot / draft</td><td>acceptance rate</td><td>edit distance to shipped version</td><td>time to first useful draft</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Rapid fire</h3>
+
+  <div class="ask">
+    <p class="q">"Retrieval metrics improved but answer quality dropped. Explain."</p>
+    <p>Most likely redundancy: the reranker promoted near-duplicates, so nDCG rose while the number of <em>distinct</em> facts in context fell. Other candidates: k grew and the extra chunks became distractors (noise sensitivity); the answer-bearing chunk moved from position 1 to position 6 and hit the lost-in-the-middle effect; or the retrieval labels were LLM-generated and drifted away from what humans consider relevant. Diagnose by measuring intra-list similarity in the top-k, and by an ablation that holds retrieval fixed and varies only position and k.</p>
+  </div>
+
+  <div class="ask">
+    <p class="q">"Your eval says the new model is better; users say it's worse. What now?"</p>
+    <p>Assume the eval is wrong until proven otherwise, and check in this order: <strong>distribution mismatch</strong> — is the golden set representative of current traffic, or is it a year old? <strong>Slice regression</strong> — a big win on the head and a collapse on a small but vocal segment. <strong>Judge bias</strong> — if the new model is more verbose or better-formatted, a judge will prefer it while users find it slower to read. <strong>Unmeasured axes</strong> — latency, tone, refusal rate, formatting stability, none of which your quality metric covers. <strong>Novelty and change aversion</strong> — real, but the last hypothesis, not the first. Then close the loop: turn the complaints into labelled examples and add them to the golden set, so the next version of the eval catches what this one missed.</p>
+  </div>
+
+  <div class="ask">
+    <p class="q">"How much should evaluation cost?"</p>
+    <p>Give a shape, not a number. A tiered budget: deterministic assertions are free and run on every commit; a judge-based suite of ~500 rows × 4 criteria × 2 orderings is ~4,000 calls, which at a small judge model is a few dollars per run and can run nightly; human review is the expensive tier, so it's spent on validating judges and on a sampled 5% of production, not on bulk grading. Then the framing that matters: eval cost is a fraction of the cost of shipping a regression into a regulated market, and the real constraint is SME time, not compute — so the design goal is to spend model calls to conserve human attention.</p>
+  </div>
+
+  <div class="ask">
+    <p class="q">"What's the difference between evaluating a RAG system and an agent?"</p>
+    <p>RAG has one decision point and a fixed pipeline, so you decompose <em>spatially</em> — retriever, generator, and their interaction — and you can score a single output against a reference. An agent has a variable-length sequence of decisions with feedback, so you decompose <em>temporally</em> — outcome versus trajectory — and there's usually no reference path. That drives three changes: success becomes a programmatic assertion on end state rather than a comparison to a gold string; reliability needs pass^k rather than a single-run rate because the agent runs unsupervised; and cost and step-efficiency become first-class quality metrics because an agent can burn unbounded resources on its way to a right answer. The components underneath don't change — an agent's tool router is still scored with precision and recall from 1979.</p>
+  </div>
+
+  <h3>Formula recall sheet</h3>
+  <div class="f">P = TP/(TP+FP)                          R = TP/(TP+FN)
+F<sub>β</sub> = (1+β²)PR/(β²P+R)
+AP = (1/|R|) Σ P@k·rel(k)               MRR = (1/|Q|) Σ 1/rank
+DCG@k = Σ (2^rel−1)/log₂(i+1)           nDCG = DCG/IDCG
+κ = (p<sub>o</sub>−p<sub>e</sub>)/(1−p<sub>e</sub>)
+MCC = (TP·TN−FP·FN)/√((TP+FP)(TP+FN)(TN+FP)(TN+FN))
+AUC = P(score⁺ &gt; score⁻)
+LogLoss = −(1/N)ΣΣ y log p              Brier = (1/N)Σ(p−y)²
+ECE = Σ (|B<sub>m</sub>|/n)|acc(B<sub>m</sub>)−conf(B<sub>m</sub>)|
+PSI = Σ (a−e)·ln(a/e)
+BLEU = BP·exp(Σ w<sub>n</sub> log p<sub>n</sub>)              PPL = exp(−(1/N)Σ log p)
+ROUGE-L F = (1+β²)RP/(R+β²P) over LCS
+F<sub>BERT</sub> = 2PR/(P+R) over greedy cosine matches
+Faithfulness = supported claims / total claims
+Context Recall = GT claims attributable to context / GT claims
+RRF(d) = Σ 1/(60 + rank<sub>r</sub>(d))
+pass@k = 1 − C(n−c,k)/C(n,k)            pass^k = C(c,k)/C(n,k)
+Elo: P(A&gt;B) = 1/(1+10^((R<sub>B</sub>−R<sub>A</sub>)/400))
+CI on a rate: p̂ ± 1.96√(p̂(1−p̂)/n)</div>
+
+  <h3>Three sentences that make you sound senior</h3>
+  <ul>
+    <li>"Which failure mode are we optimising against?" — forces the conversation from metrics to decisions.</li>
+    <li>"What's the confidence interval on that?" — almost nobody asks, and it's always relevant.</li>
+    <li>"Have we validated the judge against human labels, and what was the kappa?" — the single clearest signal that you've built evals rather than read about them.</li>
+  </ul>
+</section>
+
+<footer>
+  Compiled September 2026 · Cranfield (1966) → TREC (1992) → nDCG (2002) → BLEU/ROUGE (2002–04) → BERTScore (2019) → BEIR/MTEB (2021–22) → RAG triad &amp; RAGAS (2023) → MT-Bench / LLM-as-judge (2023) → BFCL &amp; τ-bench (2024) → skills and multi-agent systems (2025–26).<br>
+  Dates are first-publication dates and are approximate for the last two years; verify anything you plan to quote in an interview.
+</footer>

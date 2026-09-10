@@ -1,0 +1,230 @@
+/* EVALS roadmap — long-form reference page, styled with the site's own
+   design tokens (css/style.css). Per-era accent colors are kept as a
+   wayfinding device (module dot, left borders) but everything else —
+   font, radius, card treatment — follows the rest of the app. */
+
+.evals-page {
+  --e0: #5b6e74; --e1: #3a5a7d; --e2: #2a9d8f; --e3: #5f7a2e; --e4: #8a6d1f;
+  --e5: #c2542c; --e6: #9b3350; --e7: #6e3a7e; --e8: #2f3e8c; --e9: #155e63;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 48px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 24px 100px;
+  align-items: start;
+}
+[data-theme="dark"] .evals-page {
+  --e0: #93a7ad; --e1: #7ea0d6; --e2: #45c4b3; --e3: #9bc169; --e4: #d6b158;
+  --e5: #e8896b; --e6: #dd7794; --e7: #bb84cb; --e8: #8298e0; --e9: #45b3b9;
+}
+
+.evals-page .hidden { display: none !important; }
+
+/* ---------- hero ---------- */
+.evals-content .hero { margin: 0 0 40px; }
+.evals-content .hero h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 14px;
+  max-width: 16ch;
+  color: var(--text);
+}
+.evals-content .hero .standfirst {
+  font-size: 15.5px;
+  color: var(--text-dim);
+  max-width: 64ch;
+  margin: 0 0 24px;
+  line-height: 1.7;
+}
+.evals-content .hero .standfirst em { color: var(--text); font-style: italic; }
+
+.evals-content .railfig {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 12px;
+  box-shadow: var(--shadow);
+}
+.evals-content .railfig svg { display: block; width: 100%; height: auto; }
+.evals-content .figcap {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* ---------- modules ---------- */
+.evals-content .module {
+  padding-top: 40px;
+  margin-top: 32px;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 76px;
+}
+.evals-content .module:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+.evals-content .mhead {
+  display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.evals-content .mhead .era-yr {
+  font-family: var(--mono); font-size: 11px; color: var(--era);
+  border: 1px solid var(--era); padding: 3px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+.evals-content .module h2 {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.01em;
+  margin: 0; line-height: 1.2; color: var(--text);
+}
+.evals-content .module .intro { max-width: 70ch; color: var(--text-dim); font-size: 15px; line-height: 1.7; }
+.evals-content .module .intro strong { color: var(--text); font-weight: 600; }
+.evals-content h3 {
+  font-size: 17px; font-weight: 700; margin: 30px 0 8px;
+  letter-spacing: -0.005em; max-width: 60ch; color: var(--text);
+}
+.evals-content h4 { font-size: 14.5px; font-weight: 700; margin: 20px 0 6px; color: var(--text); }
+.evals-content p { max-width: 72ch; margin: 10px 0; font-size: 15px; line-height: 1.7; color: var(--text); }
+.evals-content ul, .evals-content ol { max-width: 72ch; padding-left: 22px; font-size: 15px; line-height: 1.7; }
+.evals-content li { margin: 5px 0; }
+.evals-content a { color: var(--accent); }
+.evals-content a:hover { text-decoration: underline; }
+
+/* ---------- metric entry ---------- */
+.evals-content .metric {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--era);
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  padding: 16px 20px 18px;
+  margin: 20px 0;
+}
+.evals-content .metric > .name {
+  font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--era);
+  display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px;
+}
+.evals-content .metric > .name .born { font-weight: 400; color: var(--text-dim); font-size: 11px; }
+.evals-content .metric p { margin: 8px 0; max-width: 70ch; }
+.evals-content .metric p:first-of-type { margin-top: 2px; }
+
+/* ---------- formula ---------- */
+.evals-content .f {
+  font-family: var(--mono); font-size: 13px; line-height: 1.9;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 16px; margin: 12px 0; overflow-x: auto; white-space: pre;
+  color: var(--text);
+}
+.evals-content .f .c { color: var(--text-dim); }
+.evals-content .f b { color: var(--era); font-weight: 700; }
+.evals-content code {
+  font-family: var(--mono); font-size: 0.86em; background: var(--bg-elevated);
+  border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px;
+}
+
+/* ---------- w/w/w block ---------- */
+.evals-content .www { margin: 14px 0 4px; display: grid; gap: 2px; }
+.evals-content .www div {
+  display: grid; grid-template-columns: 5.4rem 1fr; gap: 12px; align-items: baseline;
+  padding: 6px 0; border-top: 1px dotted var(--border);
+}
+.evals-content .www div:first-child { border-top: 1px solid var(--border); }
+.evals-content .www dt, .evals-content .www .k { font-family: var(--mono); font-size: 11px; color: var(--era); }
+.evals-content .www .v { font-size: 14px; color: var(--text-dim); max-width: 64ch; }
+.evals-content .www .v strong { color: var(--text); font-weight: 600; }
+
+/* ---------- callouts ---------- */
+.evals-content .ask {
+  border: 1px solid var(--era); background: var(--bg-elevated);
+  padding: 16px 20px; margin: 20px 0; border-radius: var(--radius);
+}
+.evals-content .ask .q { font-weight: 700; font-size: 15.5px; margin: 0 0 6px; max-width: 70ch; color: var(--text); }
+.evals-content .ask .q::before {
+  content: "Interview question "; font-family: var(--mono); font-size: 11px;
+  color: var(--era); display: block; font-weight: 400; margin-bottom: 4px; letter-spacing: 0.01em;
+}
+.evals-content .ask p { font-size: 14.5px; color: var(--text-dim); margin: 8px 0; }
+.evals-content .ask p strong { color: var(--text); }
+.evals-content .trap {
+  border: 1px solid var(--border); border-left: 3px solid var(--e5);
+  background: var(--bg-elevated); border-radius: var(--radius);
+  padding: 14px 18px; margin: 16px 0;
+}
+.evals-content .trap p { margin: 4px 0; font-size: 14.5px; color: var(--text-dim); }
+.evals-content .trap p:first-child::before {
+  content: "Where this breaks — "; font-family: var(--mono); font-size: 11px; color: var(--e5);
+}
+
+/* ---------- tables ---------- */
+.evals-content .tw {
+  overflow-x: auto; margin: 16px 0; border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--bg-elevated);
+}
+.evals-content table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+.evals-content th, .evals-content td {
+  text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.evals-content th {
+  font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text-dim);
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.evals-content td:first-child { font-family: var(--mono); font-size: 12px; color: var(--era); white-space: nowrap; }
+.evals-content tbody tr:last-child td { border-bottom: none; }
+
+.evals-content footer {
+  margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); line-height: 1.7;
+}
+
+/* ---------- right rail (the "timeline") ---------- */
+.evals-toggle { display: none; width: 100%; margin-bottom: 16px; text-align: left; }
+
+.evals-rail {
+  position: sticky; top: 66px; align-self: start;
+  max-height: calc(100vh - 90px); overflow-y: auto; overscroll-behavior: contain;
+  padding-left: 4px;
+}
+.evals-rail::-webkit-scrollbar { width: 6px; }
+.evals-rail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.evals-nav ol { list-style: none; margin: 0; padding: 0; }
+.evals-nav li { position: relative; padding-left: 20px; margin-bottom: 2px; }
+.evals-nav li::before {
+  content: ""; position: absolute; left: 4px; top: 0; bottom: -2px; width: 1px; background: var(--border);
+}
+.evals-nav li:first-child::before { top: 10px; }
+.evals-nav li:last-child::before { bottom: auto; height: 10px; }
+.evals-nav li .dot {
+  position: absolute; left: 1px; top: 8px; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--m, var(--accent)); transition: transform 0.18s ease;
+}
+.evals-nav a {
+  display: block; text-decoration: none; color: var(--text); font-size: 13.5px;
+  line-height: 1.32; padding: 5px 0; border-radius: 6px;
+}
+.evals-nav a:hover { color: var(--m, var(--accent)); text-decoration: none; }
+.evals-nav a .yr { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); }
+.evals-nav li.active::before { background: var(--m, var(--accent)); width: 2px; left: 3px; }
+.evals-nav li.active .dot { transform: scale(1.7); }
+.evals-nav li.active a { color: var(--m, var(--accent)); font-weight: 700; }
+.evals-nav li.dimmed a { color: var(--text-dim); opacity: 0.55; }
+.evals-nav li.dimmed .dot { opacity: 0.35; }
+
+@media (prefers-reduced-motion: reduce) {
+  .evals-nav li .dot { transition: none; }
+}
+
+@media (max-width: 960px) {
+  .evals-page { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 20px 16px 70px; }
+  .evals-toggle { display: block; order: -2; }
+  .evals-rail {
+    order: -1; display: none; position: static; max-height: none; overflow: visible;
+    padding: 14px; margin-bottom: 18px; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--bg-elevated);
+  }
+  .evals-page.rail-open .evals-rail { display: block; }
+  .evals-content { order: 0; }
+  .evals-content .www div { grid-template-columns: 1fr; gap: 2px; }
+  .evals-content .metric { padding: 14px 16px 16px; }
+}

@@ -121,7 +121,10 @@ const Sidebar = (() => {
 
     const newsWrap = buildFlatGroup("__news", "Latest News (Coming Soon)", recentNews, activeId);
     const ragWrap = buildFlatGroup("__rag-section", "RAG", [], activeId);
-    const evalsWrap = buildFlatGroup("__evals-section", "EVALS", [], activeId);
+    const evalsItems = [
+      { id: "evals-roadmap", title: "Roadmap", icon: "layers", href: "#/evals/roadmap" },
+    ];
+    const evalsWrap = buildFlatGroup("__evals-section", "EVALS", evalsItems, activeId);
 
     navScroll.appendChild(newsWrap);
     navScroll.appendChild(ragWrap);

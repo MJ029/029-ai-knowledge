@@ -82,7 +82,17 @@
         icon: n.icon || "post",
         href: `#/news/${n.id}`,
       }));
-    return blogItems.concat(newsItems);
+    const evalsItems = [
+      {
+        id: "evals-roadmap",
+        title: "Roadmap",
+        type: "evals",
+        category: "EVALS",
+        icon: "layers",
+        href: "#/evals/roadmap",
+      },
+    ];
+    return blogItems.concat(newsItems).concat(evalsItems);
   }
 
   function parseHash() {
@@ -93,6 +103,7 @@
     if (parts[0] === "blog" && parts[1]) return { name: "blog-post", id: parts[1] };
     if (parts[0] === "blog") return { name: "blog-list" };
     if (parts[0] === "news" && parts[1]) return { name: "news-post", id: parts[1] };
+    if (parts[0] === "evals" && parts[1] === "roadmap") return { name: "evals-roadmap", section: parts[2] || null };
     if (parts[0] === "graph") return { name: "graph" };
     return { name: "home" };
   }
@@ -308,6 +319,10 @@
     } else if (r.name === "news-post") {
       refreshSidebar(r.id);
       renderNewsPost(r.id);
+    } else if (r.name === "evals-roadmap") {
+      refreshSidebar("evals-roadmap");
+      setBreadcrumb(`EVALS <span style="opacity:.5">/</span> <b>Roadmap</b>`);
+      EvalsRoadmap.mount(el.main, r.section);
     } else if (r.name === "graph") {
       refreshSidebar("__graph");
       renderGraphPreview();
