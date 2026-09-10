@@ -5,7 +5,7 @@ const Sidebar = (() => {
     const header = document.createElement("div");
     header.className = "sidebar-header";
     header.innerHTML = `
-      <div class="sidebar-title"><span class="dot"></span>${site.title}</div>
+      <a class="sidebar-title" href="#/"><span class="dot"></span>${site.title}</a>
       <div class="sidebar-tagline">${site.tagline}</div>
     `;
     container.appendChild(header);

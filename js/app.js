@@ -56,8 +56,9 @@
     return { name: "home" };
   }
 
-  function setBreadcrumb(text) {
-    el.breadcrumb.innerHTML = text;
+  function setBreadcrumb(trail) {
+    const home = `<a href="#/" class="crumb-home">Home</a>`;
+    el.breadcrumb.innerHTML = trail ? `${home}<span style="opacity:.5"> / </span>${trail}` : home;
   }
 
   function relatedChipsHtml(relatedIds, currentId) {
@@ -79,7 +80,7 @@
   }
 
   function renderHome() {
-    setBreadcrumb("Home");
+    setBreadcrumb();
     el.main.innerHTML = `
       <div class="hero">
         <h1>${state.manifest.site.title}</h1>

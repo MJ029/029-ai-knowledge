@@ -97,7 +97,9 @@ button:hover { border-color: var(--accent); }
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--text);
 }
+.sidebar-title:hover { text-decoration: none; color: var(--accent); }
 .sidebar-title .dot {
   width: 9px; height: 9px; border-radius: 50%;
   background: var(--accent);
@@ -201,6 +203,8 @@ button:hover { border-color: var(--accent); }
 }
 .breadcrumb { font-size: 13px; color: var(--text-dim); }
 .breadcrumb b { color: var(--text); }
+.breadcrumb .crumb-home { color: var(--text-dim); }
+.breadcrumb .crumb-home:hover { color: var(--accent); text-decoration: none; }
 .spacer { flex: 1; }
 
 /* ---------- Home / Graph hero ---------- */
