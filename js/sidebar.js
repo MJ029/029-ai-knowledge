@@ -112,7 +112,6 @@ const Sidebar = (() => {
 
     blogWrap.appendChild(blogItemsWrap);
     if (activeId && !blogContainsActive) blogWrap.classList.add("collapsed");
-    navScroll.appendChild(blogWrap);
 
     const recentNews = [...news]
       .filter((n) => !n.hidden)
@@ -121,7 +120,13 @@ const Sidebar = (() => {
       .map((n) => ({ id: n.id, title: n.title, icon: n.icon || "post", href: `#/news/${n.id}` }));
 
     const newsWrap = buildFlatGroup("__news", "Latest News (Coming Soon)", recentNews, activeId);
+    const ragWrap = buildFlatGroup("__rag-section", "RAG", [], activeId);
+    const evalsWrap = buildFlatGroup("__evals-section", "EVALS", [], activeId);
+
     navScroll.appendChild(newsWrap);
+    navScroll.appendChild(ragWrap);
+    navScroll.appendChild(evalsWrap);
+    navScroll.appendChild(blogWrap);
 
     searchInput.addEventListener("input", () => {
       const q = searchInput.value.trim().toLowerCase();
