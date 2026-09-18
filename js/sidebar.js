@@ -33,7 +33,80 @@ const Sidebar = (() => {
     return wrap;
   }
 
-  function render(container, { site, blog, news, activeId, onNavigate }) {
+  function buildRagGroup(items, activeId) {
+    const wrap = document.createElement("div");
+    wrap.className = "nav-group";
+    wrap.dataset.key = "__rag-section";
+
+    const header = document.createElement("div");
+    header.className = "nav-group-header";
+    header.innerHTML = `<span class="chevron">▾</span><span>RAG</span>`;
+    header.addEventListener("click", () => wrap.classList.toggle("collapsed"));
+    wrap.appendChild(header);
+
+    const itemsWrap = document.createElement("div");
+    itemsWrap.className = "nav-items";
+
+    const topLevel = items.filter((it) => !it.group);
+    const childrenByParent = new Map();
+    items.forEach((it) => {
+      if (it.group) {
+        if (!childrenByParent.has(it.group)) childrenByParent.set(it.group, []);
+        childrenByParent.get(it.group).push(it);
+      }
+    });
+
+    let containsActive = false;
+    topLevel.forEach((it) => {
+      const children = childrenByParent.get(it.id);
+      if (children && children.length) {
+        const sub = document.createElement("div");
+        sub.className = "nav-subgroup";
+
+        const subHeader = document.createElement("div");
+        subHeader.className = "nav-subgroup-header";
+        const chevron = document.createElement("span");
+        chevron.className = "chevron";
+        chevron.textContent = "▾";
+        chevron.addEventListener("click", (e) => {
+          e.stopPropagation();
+          sub.classList.toggle("collapsed");
+        });
+        const link = document.createElement("a");
+        link.className = "nav-subgroup-link";
+        link.href = `#/rag/${it.id}`;
+        link.textContent = it.title;
+        link.dataset.id = it.id;
+        subHeader.appendChild(chevron);
+        subHeader.appendChild(link);
+        sub.appendChild(subHeader);
+
+        const childActive = children.some((c) => c.id === activeId);
+        if (it.id === activeId || childActive) containsActive = true;
+
+        const subItemsWrap = document.createElement("div");
+        subItemsWrap.className = "nav-items";
+        children.forEach((child) => {
+          if (child.id === activeId) containsActive = true;
+          subItemsWrap.appendChild(
+            itemRow({ id: child.id, title: child.title, icon: child.icon || "post", href: `#/rag/${child.id}` }, activeId)
+          );
+        });
+        sub.appendChild(subItemsWrap);
+        if (activeId && it.id !== activeId && !childActive) sub.classList.add("collapsed");
+        itemsWrap.appendChild(sub);
+      } else {
+        if (it.id === activeId) containsActive = true;
+        itemsWrap.appendChild(itemRow({ id: it.id, title: it.title, icon: it.icon || "post", href: `#/rag/${it.id}` }, activeId));
+      }
+    });
+
+    wrap.appendChild(itemsWrap);
+    if (activeId && !containsActive) wrap.classList.add("collapsed");
+    return wrap;
+  }
+
+  function render(container, { site, blog, news, rag, activeId, onNavigate }) {
     container.innerHTML = "";
 
     const header = document.createElement("div");
@@ -120,7 +193,7 @@ const Sidebar = (() => {
       .map((n) => ({ id: n.id, title: n.title, icon: n.icon || "post", href: `#/news/${n.id}` }));
 
     const newsWrap = buildFlatGroup("__news", "Latest News (Coming Soon)", recentNews, activeId);
-    const ragWrap = buildFlatGroup("__rag-section", "RAG", [], activeId);
+    const ragWrap = buildRagGroup(rag || [], activeId);
     const evalsItems = [
       { id: "evals-roadmap", title: "Roadmap", icon: "layers", href: "#/evals/roadmap" },
     ];

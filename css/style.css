@@ -205,6 +205,10 @@ button:hover { border-color: var(--accent); }
 .nav-subgroup.collapsed .chevron { transform: rotate(-90deg); }
 .nav-subgroup.collapsed .nav-items { display: none; }
 .nav-subgroup .nav-item { padding-left: 34px; }
+.nav-subgroup-header a.nav-subgroup-link {
+  flex: 1; color: inherit; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nav-subgroup-header a.nav-subgroup-link:hover { color: var(--accent); }
 
 .sidebar-pinned {
   padding: 6px 8px;
@@ -340,6 +344,7 @@ button:hover { border-color: var(--accent); }
   cursor: pointer;
 }
 .node-circle.blog { stroke: var(--accent-3); stroke-dasharray: 4 3; }
+.node-circle.rag { stroke: var(--accent-2); }
 .node-group:hover .node-circle {
   filter: drop-shadow(0 0 8px var(--node-stroke));
 }
@@ -487,6 +492,7 @@ button:hover { border-color: var(--accent); }
 }
 .chip:hover { border-color: var(--accent); text-decoration: none; }
 .chip.blog { border-color: var(--accent-3); }
+.chip.rag { border-color: var(--accent-2); }
 
 /* ---------- Blog list ---------- */
 

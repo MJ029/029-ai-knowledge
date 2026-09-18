@@ -22,10 +22,14 @@
   function newsById(id) {
     return state.manifest.news.find((n) => n.id === id);
   }
+  function ragById(id) {
+    return state.manifest.rag.find((r) => r.id === id);
+  }
   function hrefFor(id) {
     if (topicById(id)) return `#/topic/${id}`;
     if (blogById(id)) return `#/blog/${id}`;
     if (newsById(id)) return `#/news/${id}`;
+    if (ragById(id)) return `#/rag/${id}`;
     return "#/";
   }
   function nodeTitle(id) {
@@ -35,6 +39,8 @@
     if (b) return b.title;
     const n = newsById(id);
     if (n) return n.title;
+    const r = ragById(id);
+    if (r) return r.title;
     return id;
   }
 
@@ -44,7 +50,8 @@
     const nodes = manifest.topics
       .map((t) => ({ id: t.id, title: t.title, type: "topic", category: t.category }))
       .concat(visibleBlog.map((b) => ({ id: b.id, title: b.title, type: "blog" })))
-      .concat(visibleNews.map((n) => ({ id: n.id, title: n.title, type: "news" })));
+      .concat(visibleNews.map((n) => ({ id: n.id, title: n.title, type: "news" })))
+      .concat(manifest.rag.map((r) => ({ id: r.id, title: r.title, type: "rag", category: r.group ? "RAG · Components" : "RAG" })));
 
     const seen = new Set();
     const edges = [];
@@ -58,6 +65,10 @@
     manifest.topics.forEach((t) => (t.related || []).forEach((r) => addEdge(t.id, r)));
     visibleBlog.forEach((b) => (b.related || []).forEach((r) => addEdge(b.id, r)));
     visibleNews.forEach((n) => (n.related || []).forEach((r) => addEdge(n.id, r)));
+    manifest.rag.forEach((r) => {
+      if (r.group) addEdge(r.id, r.group);
+      (r.related || []).forEach((rel) => addEdge(r.id, rel));
+    });
     return { nodes, edges };
   }
 
@@ -92,7 +103,15 @@
         href: "#/evals/roadmap",
       },
     ];
-    return blogItems.concat(newsItems).concat(evalsItems);
+    const ragItems = manifest.rag.map((r) => ({
+      id: r.id,
+      title: r.title,
+      type: "rag",
+      category: "RAG",
+      icon: r.icon || "layers",
+      href: `#/rag/${r.id}`,
+    }));
+    return blogItems.concat(newsItems).concat(evalsItems).concat(ragItems);
   }
 
   function parseHash() {
@@ -104,6 +123,7 @@
     if (parts[0] === "blog") return { name: "blog-list" };
     if (parts[0] === "news" && parts[1]) return { name: "news-post", id: parts[1] };
     if (parts[0] === "evals" && parts[1] === "roadmap") return { name: "evals-roadmap", section: parts[2] || null };
+    if (parts[0] === "rag" && parts[1]) return { name: "rag-item", id: parts[1] };
     if (parts[0] === "graph") return { name: "graph" };
     return { name: "home" };
   }
@@ -118,8 +138,7 @@
     const chips = relatedIds
       .filter((id) => id !== currentId)
       .map((id) => {
-        const isTopic = !!topicById(id);
-        const cls = isTopic ? "chip" : "chip blog";
+        const cls = topicById(id) ? "chip" : ragById(id) ? "chip rag" : "chip blog";
         return `<a class="${cls}" href="${hrefFor(id)}">${nodeTitle(id)}</a>`;
       })
       .join("");
@@ -209,6 +228,33 @@
       });
   }
 
+  function ragFooterHtml(item) {
+    const tagsHtml = (item.tags || [])
+      .map((t) => `<span class="tag-chip">${t}</span>`)
+      .join("");
+    const relatedHtml = relatedChipsHtml(item.related, item.id).replace(
+      '<div class="related-chips">',
+      '<div class="related-chips rag-related-chips">'
+    );
+    if (!tagsHtml && !relatedHtml) return "";
+    return `
+      <footer class="rag-footer">
+        ${tagsHtml ? `<div class="rag-tags"><span class="rag-tags-label">Tags</span>${tagsHtml}</div>` : ""}
+        ${relatedHtml ? `<div class="rag-tags-label">Related</div>${relatedHtml}` : ""}
+      </footer>`;
+  }
+
+  function renderRagItem(id) {
+    const item = ragById(id);
+    if (!item) return renderNotFound();
+    const parent = item.group ? ragById(item.group) : null;
+    const crumb = parent
+      ? `RAG <span style="opacity:.5">/</span> ${parent.title} <span style="opacity:.5">/</span> <b>${item.title}</b>`
+      : `RAG <span style="opacity:.5">/</span> <b>${item.title}</b>`;
+    setBreadcrumb(crumb);
+    RagPage.mount(el.main, item, parent, ragFooterHtml(item));
+  }
+
   function renderBlogList() {
     setBreadcrumb("Blog");
     const posts = state.manifest.blog.filter((b) => !b.hidden).sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -295,6 +341,7 @@
       site: state.manifest.site,
       blog: state.manifest.blog,
       news: state.manifest.news,
+      rag: state.manifest.rag,
       activeId,
       onNavigate: () => {},
     });
@@ -323,6 +370,9 @@
       refreshSidebar("evals-roadmap");
       setBreadcrumb(`EVALS <span style="opacity:.5">/</span> <b>Roadmap</b>`);
       EvalsRoadmap.mount(el.main, r.section);
+    } else if (r.name === "rag-item") {
+      refreshSidebar(r.id);
+      renderRagItem(r.id);
     } else if (r.name === "graph") {
       refreshSidebar("__graph");
       renderGraphPreview();

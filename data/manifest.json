@@ -2,134 +2,131 @@
   "site": {
     "title": "AI Knowledge",
     "tagline": "A graph of AI, one node at a time",
-    "homeHeading": "Welcome — glad you're here",
+    "homeHeading": "Welcome \u2014 glad you're here",
     "homeTagline": "Notes on AI, written as I learn. Search below to jump in.",
     "author": "Manikandan Jeyabal"
   },
-  "categories": [
-    "Foundations",
-    "Deep Learning & Modalities",
-    "Generative & Language",
-    "Responsible AI"
-  ],
-  "topics": [
+  "topics": [],
+  "rag": [
     {
-      "id": "ml",
-      "title": "Machine Learning",
-      "category": "Foundations",
+      "id": "rag-architecture",
+      "title": "Architecture",
       "icon": "network",
-      "summary": "Systems that learn patterns from data instead of explicit rules.",
-      "file": "content/topics/ml.md",
-      "related": ["deep-learning", "mlops"]
+      "file": "content/rag/architecture.html",
+      "tags": ["rag", "architecture", "pipeline", "system-design"],
+      "related": ["rag-components"]
     },
     {
-      "id": "mlops",
-      "title": "MLOps",
-      "category": "Foundations",
-      "icon": "deploy",
-      "summary": "Shipping and running ML models reliably in production.",
-      "file": "content/topics/mlops.md",
-      "related": ["ml", "agents"]
-    },
-    {
-      "id": "deep-learning",
-      "title": "Deep Learning",
-      "category": "Deep Learning & Modalities",
+      "id": "rag-components",
+      "title": "Components",
       "icon": "layers",
-      "summary": "Layered neural networks that learn hierarchical representations.",
-      "file": "content/topics/deep-learning.md",
-      "related": ["ml", "nlp", "computer-vision", "generative-ai"]
+      "file": "content/rag/components.html",
+      "tags": ["rag", "components", "pipeline"],
+      "related": [
+        "rag-architecture",
+        "rag-document-parsing",
+        "rag-chunking",
+        "rag-embeddings",
+        "rag-vector-store-indexing",
+        "rag-retrieval",
+        "rag-ranking",
+        "rag-context-management",
+        "rag-query-parsing",
+        "rag-evaluation",
+        "rag-guardrails-safety"
+      ]
     },
     {
-      "id": "nlp",
-      "title": "NLP",
-      "category": "Deep Learning & Modalities",
-      "icon": "chat",
-      "summary": "Teaching machines to read, parse, and generate human language.",
-      "file": "content/topics/nlp.md",
-      "related": ["deep-learning", "llms"]
+      "id": "rag-document-parsing",
+      "title": "Document Parsing",
+      "icon": "post",
+      "group": "rag-components",
+      "file": "content/rag/document-parsing.html",
+      "tags": ["document-parsing", "ocr", "pdf", "layout-aware", "metadata", "data-cleaning", "cdc"],
+      "related": ["rag-chunking", "rag-vector-store-indexing", "rag-guardrails-safety"]
     },
     {
-      "id": "computer-vision",
-      "title": "Computer Vision",
-      "category": "Deep Learning & Modalities",
-      "icon": "eye",
-      "summary": "Extracting meaning from images and video.",
-      "file": "content/topics/computer-vision.md",
-      "related": ["deep-learning", "generative-ai"]
+      "id": "rag-chunking",
+      "title": "Chunking",
+      "icon": "layers",
+      "group": "rag-components",
+      "file": "content/rag/chunking.html",
+      "tags": ["chunking", "tokenization", "chunk-overlap"],
+      "related": ["rag-document-parsing", "rag-embeddings"]
     },
     {
-      "id": "generative-ai",
-      "title": "Generative AI",
-      "category": "Generative & Language",
-      "icon": "spark",
-      "summary": "Models that create new content: text, images, audio, code.",
-      "file": "content/topics/generative-ai.md",
-      "related": ["deep-learning", "llms", "computer-vision", "ethics-safety"]
+      "id": "rag-embeddings",
+      "title": "Embeddings",
+      "icon": "network",
+      "group": "rag-components",
+      "file": "content/rag/embeddings.html",
+      "tags": ["embeddings", "vectors", "semantic-search"],
+      "related": ["rag-chunking", "rag-vector-store-indexing"]
     },
     {
-      "id": "llms",
-      "title": "LLMs",
-      "category": "Generative & Language",
+      "id": "rag-vector-store-indexing",
+      "title": "Vector Store & Indexing",
       "icon": "cpu",
-      "summary": "Large language models: scale, training, and how they're used.",
-      "file": "content/topics/llms.md",
-      "related": ["nlp", "generative-ai", "agents", "ethics-safety"]
+      "group": "rag-components",
+      "file": "content/rag/vector-store-indexing.html",
+      "tags": ["vector-store", "indexing", "ann", "hnsw"],
+      "related": ["rag-embeddings", "rag-retrieval", "rag-document-parsing"]
     },
     {
-      "id": "agents",
-      "title": "Agents",
-      "category": "Generative & Language",
-      "icon": "bot",
-      "summary": "LLMs given tools, memory, and loops to act toward a goal.",
-      "file": "content/topics/agents.md",
-      "related": ["llms", "mlops", "ethics-safety"]
+      "id": "rag-retrieval",
+      "title": "Retrieval",
+      "icon": "search",
+      "group": "rag-components",
+      "file": "content/rag/retrieval.html",
+      "tags": ["retrieval", "similarity-search", "hybrid-search"],
+      "related": ["rag-vector-store-indexing", "rag-ranking"]
     },
     {
-      "id": "ethics-safety",
-      "title": "Ethics & Safety",
-      "category": "Responsible AI",
+      "id": "rag-ranking",
+      "title": "Ranking",
+      "icon": "spark",
+      "group": "rag-components",
+      "file": "content/rag/ranking.html",
+      "tags": ["ranking", "reranking", "relevance"],
+      "related": ["rag-retrieval", "rag-context-management"]
+    },
+    {
+      "id": "rag-context-management",
+      "title": "Context Management",
+      "icon": "chat",
+      "group": "rag-components",
+      "file": "content/rag/context-management.html",
+      "tags": ["context-window", "prompt-assembly"],
+      "related": ["rag-ranking", "rag-query-parsing"]
+    },
+    {
+      "id": "rag-query-parsing",
+      "title": "Query Parsing",
+      "icon": "search",
+      "group": "rag-components",
+      "file": "content/rag/query-parsing.html",
+      "tags": ["query-understanding", "query-rewriting"],
+      "related": ["rag-retrieval", "rag-context-management"]
+    },
+    {
+      "id": "rag-evaluation",
+      "title": "Evaluation",
+      "icon": "eye",
+      "group": "rag-components",
+      "file": "content/rag/evaluation.html",
+      "tags": ["evaluation", "metrics", "benchmarking"],
+      "related": ["rag-guardrails-safety", "rag-retrieval"]
+    },
+    {
+      "id": "rag-guardrails-safety",
+      "title": "Guardrails & Safety",
       "icon": "shield",
-      "summary": "Bias, alignment, misuse, and the guardrails around all of it.",
-      "file": "content/topics/ethics-safety.md",
-      "related": ["llms", "generative-ai", "agents"]
+      "group": "rag-components",
+      "file": "content/rag/guardrails-safety.html",
+      "tags": ["guardrails", "safety", "access-control"],
+      "related": ["rag-document-parsing", "rag-evaluation"]
     }
   ],
-  "blog": [
-    {
-      "id": "getting-started-with-llms",
-      "title": "Getting Started with LLMs",
-      "category": "General",
-      "hidden": true,
-      "date": "2026-09-10",
-      "tags": ["llms", "generative-ai"],
-      "icon": "post",
-      "summary": "Where to start if you're new to large language models.",
-      "file": "content/blog/getting-started-with-llms.md",
-      "related": ["llms", "generative-ai"]
-    },
-    {
-      "id": "what-is-rag",
-      "title": "What is RAG?",
-      "category": "RAG",
-      "date": "2026-09-10",
-      "tags": ["rag", "llms"],
-      "icon": "post",
-      "summary": "Retrieval-augmented generation, in plain terms.",
-      "file": "content/blog/what-is-rag.md",
-      "related": ["llms"]
-    }
-  ],
-  "news": [
-    {
-      "id": "site-launch",
-      "title": "AI Knowledge is live",
-      "hidden": true,
-      "date": "2026-09-10",
-      "icon": "post",
-      "summary": "This site just went up — a blog on AI topics, with a graph preview of how it all connects.",
-      "file": "content/news/site-launch.md",
-      "related": []
-    }
-  ]
+  "blog": [],
+  "news": []
 }

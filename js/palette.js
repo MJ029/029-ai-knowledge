@@ -55,8 +55,18 @@ const CommandPalette = (() => {
           selected = Number(row.dataset.index);
           renderResults();
         });
-        row.addEventListener("click", () => commit(Number(row.dataset.index)));
       });
+    }
+
+    // Delegated, not per-row: some pointer-event sources report the
+    // dropdown container itself as e.target rather than the row underneath
+    // it, so re-resolve the row from the event's coordinates as a fallback
+    // instead of trusting e.target alone.
+    function rowAt(e) {
+      const direct = e.target.closest && e.target.closest(".palette-row");
+      if (direct) return direct;
+      const atPoint = document.elementFromPoint(e.clientX, e.clientY);
+      return atPoint && atPoint.closest ? atPoint.closest(".palette-row") : null;
     }
 
     function move(delta) {
@@ -98,7 +108,11 @@ const CommandPalette = (() => {
         input.blur();
       }
     });
-    dropdown.addEventListener("mousedown", (e) => e.preventDefault());
+    dropdown.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      const row = rowAt(e);
+      if (row) commit(Number(row.dataset.index));
+    });
 
     const widget = {
       bar,
