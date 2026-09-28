@@ -308,8 +308,25 @@
     const item = newsById(id);
     if (!item) return renderNotFound();
     setBreadcrumb(`Latest News <span style="opacity:.5">/</span> <b>${item.title}</b>`);
-    el.main.innerHTML = `<div class="page"><div class="empty-state">Loading…</div></div>`;
 
+    if (/\.html?$/i.test(item.file)) {
+      el.main.innerHTML = `
+        <div class="news-post">
+          <div class="news-head">
+            <div class="page-eyebrow">Latest News</div>
+            <h1>${item.title}</h1>
+            <div class="page-meta">${item.date}</div>
+          </div>
+          <div class="news-embed">
+            <iframe id="news-frame-${item.id}" src="${item.file}" title="${item.title}" loading="lazy"></iframe>
+          </div>
+          ${relatedChipsHtml(item.related, id)}
+        </div>
+      `;
+      return;
+    }
+
+    el.main.innerHTML = `<div class="page"><div class="empty-state">Loading…</div></div>`;
     fetch(item.file)
       .then((r) => {
         if (!r.ok) throw new Error("not found");

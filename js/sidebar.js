@@ -192,7 +192,7 @@ const Sidebar = (() => {
       .slice(0, RECENT_COUNT)
       .map((n) => ({ id: n.id, title: n.title, icon: n.icon || "post", href: `#/news/${n.id}` }));
 
-    const newsWrap = buildFlatGroup("__news", "Latest News (Coming Soon)", recentNews, activeId);
+    const newsWrap = buildFlatGroup("__news", "Latest News", recentNews, activeId);
     const ragWrap = buildRagGroup(rag || [], activeId);
     const evalsItems = [
       { id: "evals-roadmap", title: "Roadmap", icon: "layers", href: "#/evals/roadmap" },

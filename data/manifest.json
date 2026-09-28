@@ -2,7 +2,7 @@
   "site": {
     "title": "AI Knowledge",
     "tagline": "A graph of AI, one node at a time",
-    "homeHeading": "Welcome \u2014 glad you're here",
+    "homeHeading": "Welcome — glad you're here",
     "homeTagline": "Notes on AI, written as I learn. Search below to jump in.",
     "author": "Manikandan Jeyabal"
   },
@@ -13,15 +13,26 @@
       "title": "Architecture",
       "icon": "network",
       "file": "content/rag/architecture.html",
-      "tags": ["rag", "architecture", "pipeline", "system-design"],
-      "related": ["rag-components"]
+      "tags": [
+        "rag",
+        "architecture",
+        "pipeline",
+        "system-design"
+      ],
+      "related": [
+        "rag-components"
+      ]
     },
     {
       "id": "rag-components",
       "title": "Components",
       "icon": "layers",
       "file": "content/rag/components.html",
-      "tags": ["rag", "components", "pipeline"],
+      "tags": [
+        "rag",
+        "components",
+        "pipeline"
+      ],
       "related": [
         "rag-architecture",
         "rag-document-parsing",
@@ -42,8 +53,20 @@
       "icon": "post",
       "group": "rag-components",
       "file": "content/rag/document-parsing.html",
-      "tags": ["document-parsing", "ocr", "pdf", "layout-aware", "metadata", "data-cleaning", "cdc"],
-      "related": ["rag-chunking", "rag-vector-store-indexing", "rag-guardrails-safety"]
+      "tags": [
+        "document-parsing",
+        "ocr",
+        "pdf",
+        "layout-aware",
+        "metadata",
+        "data-cleaning",
+        "cdc"
+      ],
+      "related": [
+        "rag-chunking",
+        "rag-vector-store-indexing",
+        "rag-guardrails-safety"
+      ]
     },
     {
       "id": "rag-chunking",
@@ -51,8 +74,15 @@
       "icon": "layers",
       "group": "rag-components",
       "file": "content/rag/chunking.html",
-      "tags": ["chunking", "tokenization", "chunk-overlap"],
-      "related": ["rag-document-parsing", "rag-embeddings"]
+      "tags": [
+        "chunking",
+        "tokenization",
+        "chunk-overlap"
+      ],
+      "related": [
+        "rag-document-parsing",
+        "rag-embeddings"
+      ]
     },
     {
       "id": "rag-embeddings",
@@ -60,8 +90,15 @@
       "icon": "network",
       "group": "rag-components",
       "file": "content/rag/embeddings.html",
-      "tags": ["embeddings", "vectors", "semantic-search"],
-      "related": ["rag-chunking", "rag-vector-store-indexing"]
+      "tags": [
+        "embeddings",
+        "vectors",
+        "semantic-search"
+      ],
+      "related": [
+        "rag-chunking",
+        "rag-vector-store-indexing"
+      ]
     },
     {
       "id": "rag-vector-store-indexing",
@@ -69,8 +106,17 @@
       "icon": "cpu",
       "group": "rag-components",
       "file": "content/rag/vector-store-indexing.html",
-      "tags": ["vector-store", "indexing", "ann", "hnsw"],
-      "related": ["rag-embeddings", "rag-retrieval", "rag-document-parsing"]
+      "tags": [
+        "vector-store",
+        "indexing",
+        "ann",
+        "hnsw"
+      ],
+      "related": [
+        "rag-embeddings",
+        "rag-retrieval",
+        "rag-document-parsing"
+      ]
     },
     {
       "id": "rag-retrieval",
@@ -78,8 +124,15 @@
       "icon": "search",
       "group": "rag-components",
       "file": "content/rag/retrieval.html",
-      "tags": ["retrieval", "similarity-search", "hybrid-search"],
-      "related": ["rag-vector-store-indexing", "rag-ranking"]
+      "tags": [
+        "retrieval",
+        "similarity-search",
+        "hybrid-search"
+      ],
+      "related": [
+        "rag-vector-store-indexing",
+        "rag-ranking"
+      ]
     },
     {
       "id": "rag-ranking",
@@ -87,8 +140,15 @@
       "icon": "spark",
       "group": "rag-components",
       "file": "content/rag/ranking.html",
-      "tags": ["ranking", "reranking", "relevance"],
-      "related": ["rag-retrieval", "rag-context-management"]
+      "tags": [
+        "ranking",
+        "reranking",
+        "relevance"
+      ],
+      "related": [
+        "rag-retrieval",
+        "rag-context-management"
+      ]
     },
     {
       "id": "rag-context-management",
@@ -96,8 +156,14 @@
       "icon": "chat",
       "group": "rag-components",
       "file": "content/rag/context-management.html",
-      "tags": ["context-window", "prompt-assembly"],
-      "related": ["rag-ranking", "rag-query-parsing"]
+      "tags": [
+        "context-window",
+        "prompt-assembly"
+      ],
+      "related": [
+        "rag-ranking",
+        "rag-query-parsing"
+      ]
     },
     {
       "id": "rag-query-parsing",
@@ -105,8 +171,14 @@
       "icon": "search",
       "group": "rag-components",
       "file": "content/rag/query-parsing.html",
-      "tags": ["query-understanding", "query-rewriting"],
-      "related": ["rag-retrieval", "rag-context-management"]
+      "tags": [
+        "query-understanding",
+        "query-rewriting"
+      ],
+      "related": [
+        "rag-retrieval",
+        "rag-context-management"
+      ]
     },
     {
       "id": "rag-evaluation",
@@ -114,8 +186,15 @@
       "icon": "eye",
       "group": "rag-components",
       "file": "content/rag/evaluation.html",
-      "tags": ["evaluation", "metrics", "benchmarking"],
-      "related": ["rag-guardrails-safety", "rag-retrieval"]
+      "tags": [
+        "evaluation",
+        "metrics",
+        "benchmarking"
+      ],
+      "related": [
+        "rag-guardrails-safety",
+        "rag-retrieval"
+      ]
     },
     {
       "id": "rag-guardrails-safety",
@@ -123,10 +202,32 @@
       "icon": "shield",
       "group": "rag-components",
       "file": "content/rag/guardrails-safety.html",
-      "tags": ["guardrails", "safety", "access-control"],
-      "related": ["rag-document-parsing", "rag-evaluation"]
+      "tags": [
+        "guardrails",
+        "safety",
+        "access-control"
+      ],
+      "related": [
+        "rag-document-parsing",
+        "rag-evaluation"
+      ]
     }
   ],
   "blog": [],
-  "news": []
+  "news": [
+    {
+      "id": "signal-digest-2026-09-28",
+      "title": "Signal Digest — 28 Sep 2026",
+      "date": "2026-09-28",
+      "summary": "AI Engineer Paris 2026 conference dump: 26 talk deep-reports, GPT-6 Sol/Luna and Claude Opus 5.5, GLM-5.3-Flash, plus AI safety incidents, platform updates and the week's GitHub pick.",
+      "file": "content/news/2026-09-28-signal-digest.html",
+      "icon": "post",
+      "tags": [
+        "signal-digest",
+        "ai-news",
+        "weekly-digest"
+      ],
+      "related": []
+    }
+  ]
 }
