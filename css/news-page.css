@@ -1,0 +1,120 @@
+/* News digest content — category colors + card/grid/modal components used by
+   content/news/*.html. Mounted through RagPage exactly like a RAG section
+   (see js/ragPage.js), so the hero, h2 module dividers, and Contents rail
+   all come from css/rag-page.css. Everything digest-specific here is scoped
+   under .rag-content so it never leaks onto other RAG pages. */
+
+:root {
+  --cat-buzz: #c2542c;
+  --cat-labs: #6a6f9e;
+  --cat-open: #2a9d8f;
+  --cat-platform: #3d7a94;
+  --cat-video: #a24f74;
+  --cat-github: #a67c27;
+  --cat-safety: #a1493a;
+}
+[data-theme="dark"] {
+  --cat-buzz: #e8896b;
+  --cat-labs: #9ba0e0;
+  --cat-open: #45c4b3;
+  --cat-platform: #7fb8d6;
+  --cat-video: #d98fab;
+  --cat-github: #d4a94f;
+  --cat-safety: #d97b66;
+}
+
+.rag-content .digest-meta { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-dim); margin: -6px 0 0; }
+.rag-content .info-btn { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; padding: 0; flex: none; color: var(--text-dim); border: 1px solid var(--border); background: var(--bg-elevated); cursor: pointer; }
+.rag-content .info-btn:hover { color: var(--accent); border-color: var(--accent); }
+.rag-content .info-btn svg { width: 14px; height: 14px; }
+
+.rag-content .section-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }
+.rag-content .section-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; display: inline-block; }
+.rag-content .section-count { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); margin-left: 10px; }
+.rag-content .section-sub { color: var(--text-dim); font-size: 13.5px; margin: 6px 0 16px; max-width: 66ch; line-height: 1.6; }
+
+.rag-content .mega-block { display: flex; flex-direction: column; gap: 8px; }
+.rag-content .sub-stack { display: flex; flex-direction: column; gap: 26px; margin: 18px 0 0 4px; padding-left: 18px; border-left: 2px solid var(--border); }
+.rag-content .sub-block h3 { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
+.rag-content .sub-head-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+
+/* ---------- cards ---------- */
+.rag-content .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; margin-top: 6px; }
+.rag-content .grid.grid-1col { grid-template-columns: 1fr; }
+.rag-content .card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 9px; }
+.rag-content .card-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.rag-content .card-title { font-size: 15px; font-weight: 700; line-height: 1.35; }
+.rag-content .card-summary { color: var(--text-dim); font-size: 13.5px; line-height: 1.6; margin: 0; }
+.rag-content .card-footer { margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding-top: 2px; }
+.rag-content .source-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rag-content .source-badge { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+.rag-content .status-pill { font-family: var(--mono); font-size: 10.5px; padding: 2px 7px; border-radius: 20px; border: 1px dashed var(--border); }
+.rag-content .status-new { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.rag-content .status-updated { color: var(--accent-3); border-color: color-mix(in srgb, var(--accent-3) 55%, transparent); }
+.rag-content .type-badge { font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 5px; border: 1px solid var(--border); }
+.rag-content .ref-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.rag-content .ref-link { font-size: 12px; padding: 4px 9px; border-radius: 7px; border: 1px solid var(--border); text-decoration: none; color: var(--text); display: inline-flex; align-items: center; gap: 5px; background: var(--bg-elevated); cursor: pointer; font-family: inherit; }
+.rag-content .ref-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.rag-content .ref-link.emphasis { border-style: dashed; border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.rag-content .video-note { font-size: 12.5px; color: var(--text-dim); margin: 0 0 8px; }
+.rag-content .video-head-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rag-content .play-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--cat-video); display: flex; align-items: center; justify-content: center; color: #fff; border: 0; flex: none; }
+.rag-content .play-btn svg { width: 13px; height: 13px; margin-left: 2px; }
+.rag-content .duration-badge { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.rag-content .tags-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.rag-content .tag-chip { display: inline-block; padding: 3px 9px; border-radius: 999px; border: 1px dashed var(--border); font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); background: var(--bg-elevated); }
+.rag-content .headline-card { border-left-width: 3px; border-left-style: solid; }
+.rag-content .jump-link { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.rag-content .jump-link:hover { color: var(--accent); }
+.rag-content .headline-empty { color: var(--text-dim); font-size: 13.5px; border: 1px dashed var(--border); border-radius: var(--radius); padding: 16px 18px; }
+
+/* ---------- repo card ---------- */
+.rag-content .repo-card { background: var(--bg-elevated); border: 1px solid var(--border); border-left: 3px solid var(--cat-github); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.rag-content .repo-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rag-content .repo-name { font-family: var(--mono); font-size: 15px; font-weight: 700; }
+.rag-content .repo-stats { display: flex; gap: 14px; font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-top: 2px; flex-wrap: wrap; }
+.rag-content .lang-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cat-github); display: inline-block; margin-right: 5px; }
+
+/* ---------- token-usage / citations panel inside the info modal ---------- */
+.rag-content .digest-callout { border: 1px solid var(--border); background: var(--bg-elevated); border-radius: var(--radius); padding: 14px 18px; }
+.rag-content .digest-callout .label { font-family: var(--mono); font-size: 11px; color: var(--accent); display: block; margin-bottom: 10px; letter-spacing: .03em; text-transform: uppercase; }
+.rag-content .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(116px, 1fr)); gap: 10px; }
+.rag-content .stat-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 13px; display: flex; flex-direction: column; gap: 3px; }
+.rag-content .stat-value { font-family: var(--mono); font-size: 1.02rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rag-content .stat-label { font-size: 10.5px; color: var(--text-dim); }
+.rag-content .cite-list { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 2px; }
+.rag-content .cite-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 13px; font-size: 13px; }
+.rag-content .cite-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+.rag-content .cite-count { font-family: var(--mono); font-size: 11.5px; color: var(--text-dim); }
+
+.rag-content footer { border-top: 1px solid var(--border); padding: 20px 0 0; margin-top: 20px; text-align: center; font-size: 12px; color: var(--text-dim); }
+.rag-content footer code { font-family: var(--mono); background: var(--bg-elevated); border: 1px solid var(--border); padding: 2px 6px; border-radius: 5px; }
+
+/* ---------- modal (AI Summary / refresh info) — fixed to the real viewport now
+   that this content lives in the page directly instead of an iframe ---------- */
+.rag-content .modal-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(10, 12, 10, .5); backdrop-filter: blur(2px); display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px; opacity: 0; pointer-events: none; transition: opacity .18s ease; }
+.rag-content .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+.rag-content .modal-panel { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); max-width: 640px; width: 100%; max-height: calc(100vh - 96px); overflow-y: auto; box-shadow: 0 24px 64px rgba(0, 0, 0, .28); }
+.rag-content .modal-head { position: sticky; top: 0; background: var(--bg-elevated); border-bottom: 1px solid var(--border); padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; z-index: 1; }
+.rag-content .modal-thumb { width: 56px; height: 56px; border-radius: 10px; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; }
+.rag-content .modal-thumb svg { width: 19px; height: 19px; }
+.rag-content .modal-head-text { flex: 1; min-width: 0; }
+.rag-content .modal-head-text h3 { font-size: 16.5px; line-height: 1.3; margin: 4px 0 4px; font-weight: 700; }
+.rag-content .modal-head-meta { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.rag-content .modal-close { width: 28px; height: 28px; border-radius: 8px; padding: 0; flex: none; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text); cursor: pointer; }
+.rag-content .modal-close:hover { border-color: var(--accent); }
+.rag-content .modal-body { padding: 18px 22px 24px; display: flex; flex-direction: column; gap: 16px; }
+.rag-content .modal-section { border-left: 2px solid var(--border); padding-left: 14px; display: flex; flex-direction: column; gap: 6px; }
+.rag-content .modal-section h4 { font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-dim); }
+.rag-content .modal-section p { font-size: 13.5px; line-height: 1.65; color: var(--text); margin: 0; }
+.rag-content .modal-section ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+.rag-content .modal-section li { font-size: 13px; line-height: 1.55; color: var(--text); }
+.rag-content .speaker-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rag-content .speaker-github { font-family: var(--mono); font-size: 11.5px; padding: 3px 9px; border: 1px dashed var(--border); border-radius: 20px; text-decoration: none; color: var(--text); display: inline-flex; align-items: center; gap: 5px; }
+.rag-content .speaker-github:hover { border-color: var(--cat-video); color: var(--cat-video); text-decoration: none; }
+.rag-content .modal-foot { border-top: 1px solid var(--border); padding: 14px 22px 18px; }
+
+@media (max-width: 640px) {
+  .rag-content .modal-panel { max-height: calc(100vh - 32px); }
+  .rag-content .modal-backdrop { padding: 16px; }
+}

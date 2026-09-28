@@ -310,19 +310,7 @@
     setBreadcrumb(`Latest News <span style="opacity:.5">/</span> <b>${item.title}</b>`);
 
     if (/\.html?$/i.test(item.file)) {
-      el.main.innerHTML = `
-        <div class="news-post">
-          <div class="news-head">
-            <div class="page-eyebrow">Latest News</div>
-            <h1>${item.title}</h1>
-            <div class="page-meta">${item.date}</div>
-          </div>
-          <div class="news-embed">
-            <iframe id="news-frame-${item.id}" src="${item.file}" title="${item.title}" loading="lazy"></iframe>
-          </div>
-          ${relatedChipsHtml(item.related, id)}
-        </div>
-      `;
+      RagPage.mount(el.main, item, null, relatedChipsHtml(item.related, id));
       return;
     }
 
